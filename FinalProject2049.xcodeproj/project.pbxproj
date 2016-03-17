@@ -14,6 +14,7 @@
 		20AC85771C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85761C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift */; };
 		20AC85791C9A3EB600D6ABF3 /* NewPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85781C9A3EB600D6ABF3 /* NewPuzzleViewController.swift */; };
 		20AC857E1C9B14FE00D6ABF3 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */; };
+		20AC85801C9B52BD00D6ABF3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20AC857F1C9B52BD00D6ABF3 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		20AC85761C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzlesTableViewController.swift; path = ../PuzzlesTableViewController.swift; sourceTree = "<group>"; };
 		20AC85781C9A3EB600D6ABF3 /* NewPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPuzzleViewController.swift; sourceTree = "<group>"; };
 		20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		20AC857F1C9B52BD00D6ABF3 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20AC85801C9B52BD00D6ABF3 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +45,7 @@
 		20AC85581C9A3B4C00D6ABF3 = {
 			isa = PBXGroup;
 			children = (
+				20AC857F1C9B52BD00D6ABF3 /* CoreLocation.framework */,
 				20AC85631C9A3B4C00D6ABF3 /* FinalProject2049 */,
 				20AC85621C9A3B4C00D6ABF3 /* Products */,
 			);

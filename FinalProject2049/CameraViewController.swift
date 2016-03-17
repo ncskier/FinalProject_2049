@@ -8,15 +8,21 @@
 
 import UIKit
 import AVFoundation
+import CoreLocation
 
-class CameraViewController: UIViewController {
+class CameraViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var capturedImageView: UIImageView!
     @IBOutlet weak var livePreviewView: UIView!
     
+    // Image processing
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
+    
+    // Location processing
+    var locationManager : CLLocationManager?
+    var pictureLocation : CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +33,52 @@ class CameraViewController: UIViewController {
     
     func setupLocationServices() {
         
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if (authorizationStatus == .Restricted) {
+            
+            // Show Error Alert
+            let errorAlertController = UIAlertController(
+                title: "Location Authorization Restricted",
+                message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
+                preferredStyle: .Alert
+            )
+            let dismissAlertAction = UIAlertAction(
+                title: "Dismiss",
+                style: .Default,
+                handler: nil
+            )
+            errorAlertController.addAction(dismissAlertAction)
+            
+        } else if (authorizationStatus == .Denied) {
+            
+            // Show Error Alert
+            let errorAlertController = UIAlertController(
+                title: "Location Authorisation Denied",
+                message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
+                preferredStyle: .Alert
+            )
+            let dismissAlertAction = UIAlertAction(
+                title: "Dismiss",
+                style: .Default,
+                handler: nil
+            )
+            errorAlertController.addAction(dismissAlertAction)
+            
+        } else {
+            
+            locationManager = CLLocationManager()
+            locationManager!.delegate = self
+            locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager!.distanceFilter = 0.5
+            
+            if (authorizationStatus == .NotDetermined) {
+                locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
+            } else {
+                locationManager!.startUpdatingLocation()
+            }
+        }
+        
+        print("Location services enabled: \(CLLocationManager.locationServicesEnabled())")
     }
     
     func setupCameraFunction() {
@@ -106,9 +158,78 @@ class CameraViewController: UIViewController {
     }
     
     
+    // MARK: - CLLocationManagerDelegate
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        
+        print("Error: \(error.description)")
+        
+        // Show Error Alert
+        let errorAlertController = UIAlertController(
+            title: "Location Services Error",
+            message: "\(error.description)",
+            preferredStyle: .Alert
+        )
+        let dismissAlertAction = UIAlertAction(
+            title: "Dismiss",
+            style: .Default,
+            handler: nil
+        )
+        errorAlertController.addAction(dismissAlertAction)
+        
+        presentViewController(errorAlertController, animated: true, completion: nil)
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let currentLocation = locations.last!
+        
+        print("\ncurrent location: \(currentLocation)")
+        print("\tCoordinate: \(currentLocation.coordinate)")
+        print("\tFloor: \(currentLocation.floor)")
+        print("\tHorizontal accuracy: \(currentLocation.horizontalAccuracy) (meters)")
+        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        if (status == .AuthorizedWhenInUse) {
+            locationManager!.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
+        print("Did finish deferring updates with error: \(error!.description)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        print("Did update heading: \(newHeading)")
+    }
+    
+    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+        print("did pause location updates")
+    }
+    
+    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+        print("Did resume location updates")
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        print("did update to location: \(newLocation)")
+    }
+    
+    
     // MARK: - Actions
     
     @IBAction func capturePhotoButtonTapped(sender: UIButton) {
+        // Capture the location
+        pictureLocation = locationManager!.location
+        print("\n\nPicture Location: \(pictureLocation)")
+        print("\tCoordinate: \(pictureLocation!.coordinate)")
+        print("\tFloor: \(pictureLocation!.floor)")
+        print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
+        print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
+        
         // Set up data connection to capture photo
         
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
@@ -128,23 +249,21 @@ class CameraViewController: UIViewController {
             })
         }
         
-        
-        // Hide livePreviewLayer
-        livePreviewView.hidden = true
-        
         // Show capturedImageView
         capturedImageView.hidden = false
         
+        // Hide livePreviewLayer
+        livePreviewView.hidden = true
     }
 
     @IBAction func retakePictureButtonTapped(sender: UIButton) {
         
+        // Show livePreviewLayer
+        livePreviewView.hidden = false
+        
         // Hide capturedImageView
         capturedImageView.hidden = true
         capturedImageView.image = nil
-        
-        // Show livePreviewLayer
-        livePreviewView.hidden = false
     }
     
     
