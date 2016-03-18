@@ -12,10 +12,12 @@ import CoreLocation
 
 class CameraViewController: UIViewController, CLLocationManagerDelegate {
 
-    @IBOutlet weak var capturedImageView: UIImageView!
-    @IBOutlet weak var livePreviewView: UIView!
+    @IBOutlet weak var usePhotoButton: UIButton!
+    @IBOutlet weak var retakePictureButton: UIButton!
+    @IBOutlet weak var capturePhotoButton: UIButton!
     
     // Image processing
+    var capturedImageView = UIImageView()
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
@@ -24,11 +26,52 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager : CLLocationManager?
     var pictureLocation : CLLocation?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCameraFunction()
         setupLocationServices()
+    }
+    
+    func setupCameraFunction() {
+        // Set up captured image view
+        capturedImageView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: view.bounds.width)
+        view.addSubview(capturedImageView)
+        
+        // Hide Captured Image View
+        capturedImageView.hidden = true
+        usePhotoButton.hidden = true     // Hide until picture is taken
+        retakePictureButton.hidden = true
+        
+        // Set up Capture Session
+        captureSession = AVCaptureSession()
+        captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
+        
+        // Set up input device
+        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        
+        let input = try? AVCaptureDeviceInput(device: backCamera)
+        
+        if (input != nil && captureSession!.canAddInput(input)) {
+            captureSession!.addInput(input)
+        }
+        
+        // Set up Output
+        stillImageOutput = AVCaptureStillImageOutput()
+        stillImageOutput!.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
+        
+        captureSession!.addOutput(stillImageOutput)
+        
+        // Set up Live Preview
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+        previewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
+        
+        previewLayer!.frame = capturedImageView.frame
+        view.layer.addSublayer(previewLayer!)
+        
+        // Start session
+        captureSession!.startRunning()
     }
     
     func setupLocationServices() {
@@ -79,40 +122,6 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         print("Location services enabled: \(CLLocationManager.locationServicesEnabled())")
-    }
-    
-    func setupCameraFunction() {
-        // Hide Captured Image View
-        capturedImageView.hidden = true
-        
-        // Set up Capture Session
-        captureSession = AVCaptureSession()
-        captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
-        
-        // Set up input device
-        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        
-        let input = try? AVCaptureDeviceInput(device: backCamera)
-        
-        if (input != nil && captureSession!.canAddInput(input)) {
-            captureSession!.addInput(input)
-        }
-        
-        // Set up Output
-        stillImageOutput = AVCaptureStillImageOutput()
-        stillImageOutput!.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
-        
-        captureSession!.addOutput(stillImageOutput)
-        
-        // Set up Live Preview
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-        previewLayer!.frame = livePreviewView.bounds
-        previewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
-        
-        livePreviewView.layer.addSublayer(previewLayer!)
-        
-        // Start session
-        captureSession!.startRunning()
     }
 
     override func didReceiveMemoryWarning() {
@@ -182,13 +191,13 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let currentLocation = locations.last!
+//        let currentLocation = locations.last!
         
-        print("\ncurrent location: \(currentLocation)")
-        print("\tCoordinate: \(currentLocation.coordinate)")
-        print("\tFloor: \(currentLocation.floor)")
-        print("\tHorizontal accuracy: \(currentLocation.horizontalAccuracy) (meters)")
-        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
+//        print("\ncurrent location: \(currentLocation)")
+//        print("\tCoordinate: \(currentLocation.coordinate)")
+//        print("\tFloor: \(currentLocation.floor)")
+//        print("\tHorizontal accuracy: \(currentLocation.horizontalAccuracy) (meters)")
+//        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -222,16 +231,8 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Actions
     
     @IBAction func capturePhotoButtonTapped(sender: UIButton) {
-        // Capture the location
-        pictureLocation = locationManager!.location
-        print("\n\nPicture Location: \(pictureLocation)")
-        print("\tCoordinate: \(pictureLocation!.coordinate)")
-        print("\tFloor: \(pictureLocation!.floor)")
-        print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
-        print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
         
         // Set up data connection to capture photo
-        
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
             
             stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
@@ -242,30 +243,49 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
                 
                 let contextImage = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: .Right)
                 
-                // Crop image to livePreviewView Size
+                // Crop image to a square
                 let croppedImage = self.cropToSquare(image: contextImage)
                 
                 self.capturedImageView.image = croppedImage
             })
         }
         
-        // Show capturedImageView
-        capturedImageView.hidden = false
+        // Capture the location
+        pictureLocation = locationManager!.location
+        print("\n\nPicture Location: \(pictureLocation)")
+        print("\tCoordinate: \(pictureLocation!.coordinate)")
+        print("\tFloor: \(pictureLocation!.floor)")
+        print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
+        print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
         
-        // Hide livePreviewLayer
-        livePreviewView.hidden = true
+        // Show capturedImageView and buttons
+        capturedImageView.hidden = false
+        usePhotoButton.hidden = false
+        retakePictureButton.hidden = false
+        
+        // Hide previewLayer
+        previewLayer!.hidden = true
+        capturePhotoButton.hidden = true
+        
     }
 
     @IBAction func retakePictureButtonTapped(sender: UIButton) {
         
-        // Show livePreviewLayer
-        livePreviewView.hidden = false
+        // Show previewLayer
+        previewLayer!.hidden = false
+        capturePhotoButton.hidden = false
         
-        // Hide capturedImageView
+        // Hide capturedImageView and buttons
         capturedImageView.hidden = true
         capturedImageView.image = nil
+        
+        usePhotoButton.hidden = true
+        retakePictureButton.hidden = true
     }
     
+    @IBAction func usePhotoButtonTapped(sender: UIButton) {
+        
+    }
     
     /*
     // MARK: - Navigation
