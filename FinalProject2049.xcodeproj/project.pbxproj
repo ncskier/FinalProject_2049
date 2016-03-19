@@ -7,25 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2026A4A61C9CAFB700AFAE18 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2026A4A51C9CAFB700AFAE18 /* Models.swift */; };
 		20AC85651C9A3B4C00D6ABF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */; };
 		20AC856A1C9A3B4C00D6ABF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20AC85681C9A3B4C00D6ABF3 /* Main.storyboard */; };
 		20AC856C1C9A3B4C00D6ABF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20AC856B1C9A3B4C00D6ABF3 /* Assets.xcassets */; };
 		20AC856F1C9A3B4C00D6ABF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20AC856D1C9A3B4C00D6ABF3 /* LaunchScreen.storyboard */; };
-		20AC85771C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85761C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift */; };
-		20AC85791C9A3EB600D6ABF3 /* NewPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85781C9A3EB600D6ABF3 /* NewPuzzleViewController.swift */; };
 		20AC857E1C9B14FE00D6ABF3 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */; };
+		20AFD0F81C9CDB5D0035F240 /* PuzzlesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */; };
+		20AFD0FC1C9DBD0E0035F240 /* NewPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */; };
+		20B67E771C9E156F001C84D7 /* PuzzleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */; };
+		982CFC11CF66539DDC1A27BF /* Pods_FinalProject2049.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4FE34972C055DCCA1A3803 /* Pods_FinalProject2049.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2026A4A51C9CAFB700AFAE18 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		20AC85611C9A3B4C00D6ABF3 /* FinalProject2049.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject2049.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20AC85691C9A3B4C00D6ABF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		20AC856B1C9A3B4C00D6ABF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20AC856E1C9A3B4C00D6ABF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		20AC85701C9A3B4C00D6ABF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		20AC85761C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzlesTableViewController.swift; path = ../PuzzlesTableViewController.swift; sourceTree = "<group>"; };
-		20AC85781C9A3EB600D6ABF3 /* NewPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPuzzleViewController.swift; sourceTree = "<group>"; };
 		20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzlesTableViewController.swift; sourceTree = "<group>"; };
+		20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPuzzleViewController.swift; sourceTree = "<group>"; };
+		20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleTableViewCell.swift; sourceTree = "<group>"; };
+		4E4FE34972C055DCCA1A3803 /* Pods_FinalProject2049.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalProject2049.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8564553839E6BAEC37A30980 /* Pods-FinalProject2049.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject2049.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049.release.xcconfig"; sourceTree = "<group>"; };
+		DBD8B4FB826C635BC9AA0A3A /* Pods-FinalProject2049.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject2049.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +41,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				982CFC11CF66539DDC1A27BF /* Pods_FinalProject2049.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DE0704661DF9062132B5EF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E4FE34972C055DCCA1A3803 /* Pods_FinalProject2049.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		196727F17E6737154C909C51 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DBD8B4FB826C635BC9AA0A3A /* Pods-FinalProject2049.debug.xcconfig */,
+				8564553839E6BAEC37A30980 /* Pods-FinalProject2049.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		20AC85581C9A3B4C00D6ABF3 = {
 			isa = PBXGroup;
 			children = (
 				20AC85631C9A3B4C00D6ABF3 /* FinalProject2049 */,
 				20AC85621C9A3B4C00D6ABF3 /* Products */,
+				196727F17E6737154C909C51 /* Pods */,
+				0DE0704661DF9062132B5EF1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,9 +87,11 @@
 			isa = PBXGroup;
 			children = (
 				20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */,
-				20AC85761C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift */,
-				20AC85781C9A3EB600D6ABF3 /* NewPuzzleViewController.swift */,
+				20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */,
+				20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */,
 				20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */,
+				20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */,
+				2026A4A51C9CAFB700AFAE18 /* Models.swift */,
 				20AC85681C9A3B4C00D6ABF3 /* Main.storyboard */,
 				20AC856B1C9A3B4C00D6ABF3 /* Assets.xcassets */,
 				20AC856D1C9A3B4C00D6ABF3 /* LaunchScreen.storyboard */,
@@ -77,9 +107,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 20AC85731C9A3B4C00D6ABF3 /* Build configuration list for PBXNativeTarget "FinalProject2049" */;
 			buildPhases = (
+				5D5BF4C0EEEE48B3288A1813 /* Check Pods Manifest.lock */,
 				20AC855D1C9A3B4C00D6ABF3 /* Sources */,
 				20AC855E1C9A3B4C00D6ABF3 /* Frameworks */,
 				20AC855F1C9A3B4C00D6ABF3 /* Resources */,
+				036CDF9E26DA5D2270EE85B4 /* Embed Pods Frameworks */,
+				9F9CFC827A6F739AEAA1AC0B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -136,15 +169,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		036CDF9E26DA5D2270EE85B4 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5D5BF4C0EEEE48B3288A1813 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9F9CFC827A6F739AEAA1AC0B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		20AC855D1C9A3B4C00D6ABF3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20AC85771C9A3D6600D6ABF3 /* PuzzlesTableViewController.swift in Sources */,
+				20AFD0FC1C9DBD0E0035F240 /* NewPuzzleViewController.swift in Sources */,
 				20AC857E1C9B14FE00D6ABF3 /* CameraViewController.swift in Sources */,
 				20AC85651C9A3B4C00D6ABF3 /* AppDelegate.swift in Sources */,
-				20AC85791C9A3EB600D6ABF3 /* NewPuzzleViewController.swift in Sources */,
+				20B67E771C9E156F001C84D7 /* PuzzleTableViewCell.swift in Sources */,
+				20AFD0F81C9CDB5D0035F240 /* PuzzlesTableViewController.swift in Sources */,
+				2026A4A61C9CAFB700AFAE18 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +336,7 @@
 		};
 		20AC85741C9A3B4C00D6ABF3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBD8B4FB826C635BC9AA0A3A /* Pods-FinalProject2049.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FinalProject2049/Info.plist;
@@ -265,6 +349,7 @@
 		};
 		20AC85751C9A3B4C00D6ABF3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8564553839E6BAEC37A30980 /* Pods-FinalProject2049.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FinalProject2049/Info.plist;

@@ -11,10 +11,11 @@ import AVFoundation
 import CoreLocation
 
 class CameraViewController: UIViewController, CLLocationManagerDelegate {
-
-    @IBOutlet weak var usePhotoButton: UIButton!
-    @IBOutlet weak var retakePictureButton: UIButton!
-    @IBOutlet weak var capturePhotoButton: UIButton!
+    
+    // Photo Buttons
+    var usePhotoButton : UIButton!
+    var retakePictureButton : UIButton!
+    var capturePhotoButton : UIButton!
     
     // Image processing
     var capturedImageView = UIImageView()
@@ -35,6 +36,47 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setupCameraFunction() {
+        // Use Photo Button
+        let width : CGFloat = 100.0
+        let height : CGFloat = 30.0
+        usePhotoButton = UIButton(type: .System)
+        usePhotoButton.setTitle("Use Photo", forState: .Normal)
+        usePhotoButton.frame = CGRect(
+            x: view.frame.maxX - width - 8,
+            y: view.frame.maxY - height - 78.0,
+            width: width,
+            height: height
+        )
+        usePhotoButton.addTarget(self, action: "usePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        view.addSubview(usePhotoButton)
+        
+        // Retake Picture Button
+        retakePictureButton = UIButton(type: .System)
+        retakePictureButton.setTitle("Retake", forState: .Normal)
+        retakePictureButton.frame = CGRect(
+            x: view.frame.minX + 8,
+            y: view.frame.maxY - height - 78,
+            width: width,
+            height: height
+        )
+        retakePictureButton.addTarget(self, action: "retakePictureButtonTapped", forControlEvents: .TouchUpInside)
+        view.addSubview(retakePictureButton)
+        
+        // Capture Photo Button
+        capturePhotoButton = UIButton(type: .Custom)
+        let length : CGFloat = 70.0
+        capturePhotoButton.frame = CGRect(
+            x: view.frame.midX - length/2.0,
+            y: view.frame.maxY - length - 70.0,
+            width: length,
+            height: length
+        )
+        capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
+        capturePhotoButton.backgroundColor = UIColor.blackColor()
+        capturePhotoButton.addTarget(self, action: "capturePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        view.addSubview(capturePhotoButton)
+        view.bringSubviewToFront(capturePhotoButton)
+        
         // Set up captured image view
         capturedImageView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: view.bounds.width)
         view.addSubview(capturedImageView)
@@ -68,10 +110,12 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         previewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
         
         previewLayer!.frame = capturedImageView.frame
+        previewLayer!.zPosition = -10
         view.layer.addSublayer(previewLayer!)
         
         // Start session
         captureSession!.startRunning()
+        print("capturePhotobutton: \(capturePhotoButton)")
     }
     
     func setupLocationServices() {
@@ -229,9 +273,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     
     
     // MARK: - Actions
-    
-    @IBAction func capturePhotoButtonTapped(sender: UIButton) {
-        
+    func capturePhotoButtonTapped() {
         // Set up data connection to capture photo
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
             
@@ -269,7 +311,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         
     }
 
-    @IBAction func retakePictureButtonTapped(sender: UIButton) {
+    func retakePictureButtonTapped() {
         
         // Show previewLayer
         previewLayer!.hidden = false
@@ -283,7 +325,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         retakePictureButton.hidden = true
     }
     
-    @IBAction func usePhotoButtonTapped(sender: UIButton) {
+    func usePhotoButtonTapped() {
         
     }
     

@@ -2,19 +2,28 @@
 //  PuzzlesTableViewController.swift
 //  FinalProject2049
 //
-//  Created by Brandon Walker on 3/16/16.
+//  Created by Brandon Walker on 3/18/16.
 //  Copyright © 2016 Brandon Walker. All rights reserved.
 //
 
 import UIKit
+import RealmSwift
 
 class PuzzlesTableViewController: UITableViewController {
-
+    
+    var token : NotificationToken?
+    var puzzles : Results<Puzzle>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set Up Visual Properties
         
+        let realm = try! Realm()
+        token = realm.addNotificationBlock({ (notification, realm) -> Void in
+            self.tableView.reloadData()
+        })
+        
+        puzzles = realm.objects(Puzzle)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -31,25 +40,23 @@ class PuzzlesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return puzzles.count
     }
-
-    /*
+    
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("puzzleCell", forIndexPath: indexPath) as! PuzzleTableViewCell
 
         // Configure the cell...
-
+        cell.puzzle = puzzles[indexPath.row]
+        
         return cell
     }
-    */
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

@@ -16,13 +16,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="puzzleCell" id="dgs-Rk-TaI">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="puzzleCell" id="dgs-Rk-TaI" customClass="PuzzleTableViewCell" customModule="FinalProject2049" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dgs-Rk-TaI" id="dmz-E0-8FW">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Bu-jm-O4l">
+                                            <rect key="frame" x="16" y="-78.5" width="200" height="200.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="3Bu-jm-O4l" secondAttribute="height" multiplier="1:1" id="8D8-Gl-3qu"/>
+                                                <constraint firstAttribute="width" constant="200" id="J0c-F4-eM9"/>
+                                                <constraint firstAttribute="height" constant="200" id="pVF-ZC-BV9"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="3Bu-jm-O4l" firstAttribute="leading" secondItem="dmz-E0-8FW" secondAttribute="leadingMargin" constant="8" id="V8Z-4T-286"/>
+                                        <constraint firstItem="3Bu-jm-O4l" firstAttribute="centerY" secondItem="dmz-E0-8FW" secondAttribute="centerY" id="jZS-0D-aha"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detailImageView" destination="3Bu-jm-O4l" id="QBd-TK-pQ3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -54,85 +71,25 @@
             <point key="canvasLocation" x="607" y="330"/>
         </scene>
         <!--New Puzzle-->
-        <scene sceneID="84R-So-TuB">
+        <scene sceneID="fdc-rD-xtx">
             <objects>
-                <viewController title="New Puzzle" id="aVa-g2-R0R" customClass="NewPuzzleViewController" customModule="FinalProject2049" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hlt-ym-ahE" customClass="NewPuzzleViewController" customModule="FinalProject2049" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="cDl-6D-kKy"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZfS-X5-aDR"/>
+                        <viewControllerLayoutGuide type="top" id="9Sz-m0-Iqg"/>
+                        <viewControllerLayoutGuide type="bottom" id="8gs-YL-PSL"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9n9-nH-UR7">
+                    <view key="view" contentMode="scaleToFill" id="1w0-vb-90F">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ON-lQ-CE3">
-                                <rect key="frame" x="252" y="20" width="96" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="pBx-if-RbV"/>
-                                </constraints>
-                                <state key="normal" title="Select Picture"/>
-                                <connections>
-                                    <action selector="selectPictureButtonTapped:" destination="aVa-g2-R0R" eventType="touchUpInside" id="0dE-Zn-0gO"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Fc-Mi-lpQ">
-                                <rect key="frame" x="146.5" y="96" width="307" height="409"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="0Fc-Mi-lpQ" secondAttribute="height" multiplier="3:4" id="saj-UU-rjJ"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hiO-qq-WMU">
-                                <rect key="frame" x="258" y="58" width="85" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="5E3-h8-vdT"/>
-                                </constraints>
-                                <state key="normal" title="Take Picture"/>
-                                <connections>
-                                    <action selector="takePictureButtonTapped:" destination="aVa-g2-R0R" eventType="touchUpInside" id="NKa-YH-ikK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcw-wc-T22">
-                                <rect key="frame" x="275" y="513" width="51" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="9hD-6J-XPk"/>
-                                </constraints>
-                                <state key="normal" title="Create!"/>
-                                <connections>
-                                    <action selector="createButtonTapped:" destination="aVa-g2-R0R" eventType="touchUpInside" id="A8y-Wd-nlM"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="7ON-lQ-CE3" firstAttribute="centerX" secondItem="9n9-nH-UR7" secondAttribute="centerX" id="41u-y6-ezg"/>
-                            <constraint firstItem="0Fc-Mi-lpQ" firstAttribute="top" secondItem="hiO-qq-WMU" secondAttribute="bottom" constant="8" id="5Ex-n8-Kq4"/>
-                            <constraint firstItem="ZfS-X5-aDR" firstAttribute="top" secondItem="0Fc-Mi-lpQ" secondAttribute="bottom" constant="8" id="6mb-IR-eid"/>
-                            <constraint firstItem="ZfS-X5-aDR" firstAttribute="top" secondItem="xcw-wc-T22" secondAttribute="bottom" constant="8" id="B5a-lb-LUN"/>
-                            <constraint firstItem="0Fc-Mi-lpQ" firstAttribute="centerX" secondItem="9n9-nH-UR7" secondAttribute="centerX" id="GUR-yO-89x"/>
-                            <constraint firstItem="xcw-wc-T22" firstAttribute="centerX" secondItem="9n9-nH-UR7" secondAttribute="centerX" id="HpR-Dr-DvB"/>
-                            <constraint firstItem="xcw-wc-T22" firstAttribute="top" secondItem="0Fc-Mi-lpQ" secondAttribute="bottom" constant="8" id="Vny-U9-Mnu"/>
-                            <constraint firstItem="0Fc-Mi-lpQ" firstAttribute="top" secondItem="hiO-qq-WMU" secondAttribute="bottom" constant="55" id="jsP-TC-zKt"/>
-                            <constraint firstItem="hiO-qq-WMU" firstAttribute="centerX" secondItem="9n9-nH-UR7" secondAttribute="centerX" id="mo9-EL-8kT"/>
-                            <constraint firstItem="hiO-qq-WMU" firstAttribute="top" secondItem="7ON-lQ-CE3" secondAttribute="bottom" constant="8" id="odB-HW-YMP"/>
-                            <constraint firstItem="7ON-lQ-CE3" firstAttribute="top" secondItem="cDl-6D-kKy" secondAttribute="bottom" id="zVm-dV-ktM"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="jsP-TC-zKt"/>
-                                <exclude reference="6mb-IR-eid"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="New Puzzle" id="HQ9-eh-1eW"/>
-                    <connections>
-                        <outlet property="pictureImageView" destination="0Fc-Mi-lpQ" id="Xig-pg-nvQ"/>
-                    </connections>
+                    <tabBarItem key="tabBarItem" title="New Puzzle" id="Juf-U7-sw3"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pmh-Jf-Cks" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FTA-nN-7D0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="607" y="1015"/>
+            <point key="canvasLocation" x="607" y="1043"/>
         </scene>
-        <!--Item-->
+        <!--Camera-->
         <scene sceneID="GfT-FF-xrR">
             <objects>
                 <viewController id="yQQ-xC-dzv" customClass="CameraViewController" customModule="FinalProject2049" customModuleProvider="target" sceneMemberID="viewController">
@@ -143,53 +100,9 @@
                     <view key="view" contentMode="scaleToFill" id="OWZ-P7-SZR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v05-vz-Jyi">
-                                <rect key="frame" x="250" y="501" width="100" height="30"/>
-                                <state key="normal" title="Capture Photo"/>
-                                <connections>
-                                    <action selector="capturePhotoButtonTapped:" destination="yQQ-xC-dzv" eventType="touchUpInside" id="Fy6-cP-PmM"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSI-mU-ekS">
-                                <rect key="frame" x="20" y="501" width="47" height="30"/>
-                                <state key="normal" title="Retake"/>
-                                <connections>
-                                    <action selector="retakePictureButtonTapped:" destination="yQQ-xC-dzv" eventType="touchUpInside" id="q1g-Ym-Xzo"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xOK-HE-NFe">
-                                <rect key="frame" x="508" y="501" width="72" height="30"/>
-                                <state key="normal" title="Use Photo"/>
-                                <connections>
-                                    <action selector="usePhotoButtonTapped:" destination="yQQ-xC-dzv" eventType="touchUpInside" id="QMG-I7-gLC"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cSI-mU-ekS" firstAttribute="leading" secondItem="OWZ-P7-SZR" secondAttribute="leadingMargin" id="CbM-md-i9f"/>
-                            <constraint firstItem="CjE-ND-gGW" firstAttribute="top" secondItem="v05-vz-Jyi" secondAttribute="bottom" constant="20" id="Daj-LK-i7T"/>
-                            <constraint firstItem="CjE-ND-gGW" firstAttribute="top" secondItem="xOK-HE-NFe" secondAttribute="bottom" constant="20" id="Fzo-mW-eNT"/>
-                            <constraint firstItem="xOK-HE-NFe" firstAttribute="trailing" secondItem="OWZ-P7-SZR" secondAttribute="trailingMargin" id="Ihi-lv-fiS"/>
-                            <constraint firstItem="cSI-mU-ekS" firstAttribute="centerX" secondItem="OWZ-P7-SZR" secondAttribute="centerX" id="LGw-AE-w8r"/>
-                            <constraint firstItem="v05-vz-Jyi" firstAttribute="top" secondItem="cSI-mU-ekS" secondAttribute="bottom" constant="8" id="STX-SN-kk6"/>
-                            <constraint firstItem="v05-vz-Jyi" firstAttribute="centerX" secondItem="OWZ-P7-SZR" secondAttribute="centerX" id="nph-ao-Fi8"/>
-                            <constraint firstItem="CjE-ND-gGW" firstAttribute="top" secondItem="cSI-mU-ekS" secondAttribute="bottom" constant="20" id="wOT-ox-gOR"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="LGw-AE-w8r"/>
-                                <exclude reference="STX-SN-kk6"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="1jg-fE-80x"/>
-                    <connections>
-                        <outlet property="capturePhotoButton" destination="v05-vz-Jyi" id="jFt-zz-26k"/>
-                        <outlet property="retakePictureButton" destination="cSI-mU-ekS" id="0uV-Wd-qQP"/>
-                        <outlet property="usePhotoButton" destination="xOK-HE-NFe" id="CaS-IS-2Do"/>
-                    </connections>
+                    <tabBarItem key="tabBarItem" title="Camera" id="1jg-fE-80x"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zm6-jY-OSu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -206,8 +119,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="hgz-bV-BM0" kind="relationship" relationship="viewControllers" id="rgC-ms-xkR"/>
-                        <segue destination="aVa-g2-R0R" kind="relationship" relationship="viewControllers" id="Oit-Ew-j1v"/>
                         <segue destination="yQQ-xC-dzv" kind="relationship" relationship="viewControllers" id="mQr-ir-Z2d"/>
+                        <segue destination="hlt-ym-ahE" kind="relationship" relationship="viewControllers" id="TDC-j9-Vls"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SGD-vc-L0F" userLabel="First Responder" sceneMemberID="firstResponder"/>
