@@ -16,6 +16,8 @@
 		20AFD0F81C9CDB5D0035F240 /* PuzzlesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */; };
 		20AFD0FC1C9DBD0E0035F240 /* NewPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */; };
 		20B67E771C9E156F001C84D7 /* PuzzleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */; };
+		20B67E7B1C9E1D41001C84D7 /* PuzzleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B67E7A1C9E1D41001C84D7 /* PuzzleDetailViewController.swift */; };
+		20B67E7D1C9E28EA001C84D7 /* SolvePuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B67E7C1C9E28EA001C84D7 /* SolvePuzzleViewController.swift */; };
 		982CFC11CF66539DDC1A27BF /* Pods_FinalProject2049.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4FE34972C055DCCA1A3803 /* Pods_FinalProject2049.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,8 @@
 		20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzlesTableViewController.swift; sourceTree = "<group>"; };
 		20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPuzzleViewController.swift; sourceTree = "<group>"; };
 		20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleTableViewCell.swift; sourceTree = "<group>"; };
+		20B67E7A1C9E1D41001C84D7 /* PuzzleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleDetailViewController.swift; sourceTree = "<group>"; };
+		20B67E7C1C9E28EA001C84D7 /* SolvePuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolvePuzzleViewController.swift; sourceTree = "<group>"; };
 		4E4FE34972C055DCCA1A3803 /* Pods_FinalProject2049.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalProject2049.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8564553839E6BAEC37A30980 /* Pods-FinalProject2049.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject2049.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049.release.xcconfig"; sourceTree = "<group>"; };
 		DBD8B4FB826C635BC9AA0A3A /* Pods-FinalProject2049.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject2049.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject2049/Pods-FinalProject2049.debug.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 			children = (
 				20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */,
 				20AFD0F71C9CDB5D0035F240 /* PuzzlesTableViewController.swift */,
+				20B67E7A1C9E1D41001C84D7 /* PuzzleDetailViewController.swift */,
+				20B67E7C1C9E28EA001C84D7 /* SolvePuzzleViewController.swift */,
 				20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */,
 				20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */,
 				20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */,
@@ -222,9 +228,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20B67E7B1C9E1D41001C84D7 /* PuzzleDetailViewController.swift in Sources */,
 				20AFD0FC1C9DBD0E0035F240 /* NewPuzzleViewController.swift in Sources */,
 				20AC857E1C9B14FE00D6ABF3 /* CameraViewController.swift in Sources */,
 				20AC85651C9A3B4C00D6ABF3 /* AppDelegate.swift in Sources */,
+				20B67E7D1C9E28EA001C84D7 /* SolvePuzzleViewController.swift in Sources */,
 				20B67E771C9E156F001C84D7 /* PuzzleTableViewCell.swift in Sources */,
 				20AFD0F81C9CDB5D0035F240 /* PuzzlesTableViewController.swift in Sources */,
 				2026A4A61C9CAFB700AFAE18 /* Models.swift in Sources */,

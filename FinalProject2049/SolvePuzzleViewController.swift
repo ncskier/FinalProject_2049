@@ -1,5 +1,5 @@
 //
-//  NewPuzzleViewController.swift
+//  SolvePuzzleViewController.swift
 //  FinalProject2049
 //
 //  Created by Brandon Walker on 3/19/16.
@@ -9,10 +9,14 @@
 import UIKit
 import AVFoundation
 import CoreLocation
-import RealmSwift
 
-class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
+class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
 
+    @IBOutlet weak var solvedLabel: UILabel!
+    @IBOutlet weak var incorrectLabel: UILabel!
+    
+    var puzzle : Puzzle!
+    
     // Photo Buttons
     var usePhotoButton : UIButton!
     var retakePictureButton : UIButton!
@@ -27,11 +31,12 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
     // Location processing
     var locationManager : CLLocationManager?
     var pictureLocation : CLLocation?
-    var pictureData : NSData?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        solvedLabel.hidden = true
+        incorrectLabel.hidden = true
         
         setupCameraFunction()
         setupLocationServices()
@@ -291,9 +296,6 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 let croppedImage = self.cropToSquare(image: contextImage)
                 
                 self.capturedImageView.image = croppedImage
-                
-                // Save image data
-                self.pictureData = UIImageJPEGRepresentation(croppedImage, 1.0)
             })
         }
         
@@ -305,6 +307,19 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
         print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
         
+        // Check if puzzle solved
+        let puzzleLocation = CLLocation(latitude: puzzle.latitude, longitude: puzzle.longitude)
+        if (pictureLocation!.distanceFromLocation(puzzleLocation) < 10) {
+            solvedLabel.hidden = false
+            incorrectLabel.hidden = true
+        } else {
+            incorrectLabel.hidden = false
+            solvedLabel.hidden = true
+        }
+        
+        print("Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))")
+        print("Horizontal Accuracy: \(puzzle.horizontalAccuracy)")
+        
         // Show capturedImageView and buttons
         capturedImageView.hidden = false
         usePhotoButton.hidden = false
@@ -313,6 +328,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         // Hide previewLayer
         previewLayer!.hidden = true
         capturePhotoButton.hidden = true
+        
     }
     
     func retakePictureButtonTapped() {
@@ -331,69 +347,10 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
     
     func usePhotoButtonTapped() {
         
-        if (pictureLocation == nil) {
-            // Alert location error
-            print("Error creating puzzle - location")
-            let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the location data creating your puzzle.", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
-            
-        } else if (pictureData == nil) {
-            // Alert image error
-            print("Error creatinng puzzle - picture data")
-            let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the image data creating your puzzle.", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
-            
-        } else {
-            // Create Puzzle Object
-            var tagText = ""
-            
-            print("Ask for tags")
-            
-            // Ask user for tags
-            let tagAlertController = UIAlertController(title: "Add Tag", message: "Please enter a tag for your puzzle. For example, Cornell University.", preferredStyle: .Alert)
-            tagAlertController.addTextFieldWithConfigurationHandler({(textField) in
-                
-                textField.placeholder = "Tag"
-                
-            })
-            let doneAlertAction = UIAlertAction(title: "Done", style: .Default, handler: {(action) in
-                
-                let tagField = tagAlertController.textFields!.first!
-                if (tagField.text != nil) {
-                    tagText = tagField.text!
-                }
-                print("tag field: \(tagField)")
-            })
-            tagAlertController.addAction(doneAlertAction)
-            presentViewController(tagAlertController, animated: true, completion: nil)
-            
-            let realm = try? Realm()
-            
-            let newPuzzle = Puzzle()
-            newPuzzle.latitude = pictureLocation!.coordinate.latitude
-            newPuzzle.longitude = pictureLocation!.coordinate.longitude
-            newPuzzle.horizontalAccuracy = pictureLocation!.horizontalAccuracy
-            newPuzzle.pictureData = pictureData!
-            newPuzzle.tag = tagText
-            
-            do {
-                try realm!.write({ () -> Void in
-                    realm!.add(newPuzzle)
-                })
-            } catch {
-                print("Error saving to Realm: \(error)")
-                
-                // Alert realm error
-                let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the database creating your puzzle.", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-                errorAlertController.addAction(dismissAlertAction)
-                presentViewController(errorAlertController, animated: true, completion: nil)
-            }
-        }
+    }
+    
+    @IBAction func cancelButtonTapped(sender: UIButton) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     /*
@@ -405,5 +362,5 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
     // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
