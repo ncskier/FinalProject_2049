@@ -15,10 +15,11 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var solvedLabel: UILabel!
     @IBOutlet weak var incorrectLabel: UILabel!
     
+    // Puzzle Elements
     var puzzle : Puzzle!
+    var previewPuzzleView : UIImageView!
     
     // Photo Buttons
-    var usePhotoButton : UIButton!
     var retakePictureButton : UIButton!
     var capturePhotoButton : UIButton!
     
@@ -35,29 +36,29 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Visuals
         solvedLabel.hidden = true
         incorrectLabel.hidden = true
+        
+        // Preview Puzzle View
+        let previewLength = view.frame.width/4.0
+        previewPuzzleView = UIImageView(image: UIImage(data: puzzle.pictureData))
+        previewPuzzleView.frame = CGRect(
+            x: view.frame.maxX - previewLength - 8,
+            y: view.frame.maxY - previewLength - 8,
+            width: previewLength,
+            height: previewLength
+        )
+        view.addSubview(previewPuzzleView)
         
         setupCameraFunction()
         setupLocationServices()
     }
     
     func setupCameraFunction() {
-        // Use Photo Button
+        // Retake Picture Button
         let width : CGFloat = 100.0
         let height : CGFloat = 30.0
-        usePhotoButton = UIButton(type: .System)
-        usePhotoButton.setTitle("Use Photo", forState: .Normal)
-        usePhotoButton.frame = CGRect(
-            x: view.frame.maxX - width - 8,
-            y: view.frame.maxY - height - 78.0,
-            width: width,
-            height: height
-        )
-        usePhotoButton.addTarget(self, action: "usePhotoButtonTapped", forControlEvents: .TouchUpInside)
-        view.addSubview(usePhotoButton)
-        
-        // Retake Picture Button
         retakePictureButton = UIButton(type: .System)
         retakePictureButton.setTitle("Retake", forState: .Normal)
         retakePictureButton.frame = CGRect(
@@ -90,7 +91,6 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         
         // Hide Captured Image View
         capturedImageView.hidden = true
-        usePhotoButton.hidden = true     // Hide until picture is taken
         retakePictureButton.hidden = true
         
         // Set up Capture Session
@@ -296,6 +296,14 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 let croppedImage = self.cropToSquare(image: contextImage)
                 
                 self.capturedImageView.image = croppedImage
+                
+                // Show capturedImageView and buttons
+                self.capturedImageView.hidden = false
+                self.retakePictureButton.hidden = false
+                
+                // Hide previewLayer
+                self.previewLayer!.hidden = true
+                self.capturePhotoButton.hidden = true
             })
         }
         
@@ -309,7 +317,11 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         
         // Check if puzzle solved
         let puzzleLocation = CLLocation(latitude: puzzle.latitude, longitude: puzzle.longitude)
-        if (pictureLocation!.distanceFromLocation(puzzleLocation) < 10) {
+        var worstAccuracy = puzzle.horizontalAccuracy
+        if (pictureLocation!.horizontalAccuracy > worstAccuracy) {
+            worstAccuracy = pictureLocation!.horizontalAccuracy
+        }
+        if (pictureLocation!.distanceFromLocation(puzzleLocation) < worstAccuracy) {
             solvedLabel.hidden = false
             incorrectLabel.hidden = true
         } else {
@@ -317,18 +329,23 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             solvedLabel.hidden = true
         }
         
+        // Show Accuracy - DEBUGGING
+        let locationAlertController = UIAlertController(
+            title: "Location Information",
+            message: "Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))m\nPuzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)m\nSolution Horozontal Accuracy: \(pictureLocation!.horizontalAccuracy)m",
+            preferredStyle: .Alert
+        )
+        let dismissAlertAction = UIAlertAction(
+            title: "Dismiss",
+            style: .Default,
+            handler: nil
+        )
+        locationAlertController.addAction(dismissAlertAction)
+        presentViewController(locationAlertController, animated: true, completion: nil)
+        
         print("Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))")
-        print("Horizontal Accuracy: \(puzzle.horizontalAccuracy)")
-        
-        // Show capturedImageView and buttons
-        capturedImageView.hidden = false
-        usePhotoButton.hidden = false
-        retakePictureButton.hidden = false
-        
-        // Hide previewLayer
-        previewLayer!.hidden = true
-        capturePhotoButton.hidden = true
-        
+        print("Puzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)")
+        print("Solution Horozontal Accuracy: \(pictureLocation!.horizontalAccuracy)")
     }
     
     func retakePictureButtonTapped() {
@@ -340,13 +357,10 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         // Hide capturedImageView and buttons
         capturedImageView.hidden = true
         capturedImageView.image = nil
+        incorrectLabel.hidden = true
+        solvedLabel.hidden = true
         
-        usePhotoButton.hidden = true
         retakePictureButton.hidden = true
-    }
-    
-    func usePhotoButtonTapped() {
-        
     }
     
     @IBAction func cancelButtonTapped(sender: UIButton) {

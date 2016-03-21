@@ -17,6 +17,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
     var usePhotoButton : UIButton!
     var retakePictureButton : UIButton!
     var capturePhotoButton : UIButton!
+    var locationAccuracyLabel : UILabel!
     
     // Image processing
     var capturedImageView = UIImageView()
@@ -79,6 +80,13 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         view.addSubview(capturePhotoButton)
         view.bringSubviewToFront(capturePhotoButton)
         
+        // Location Accuracy Label
+        locationAccuracyLabel = UILabel()
+        locationAccuracyLabel.textAlignment = .Center
+        locationAccuracyLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
+        locationAccuracyLabel.center = CGPoint(x: view.frame.midX, y: capturePhotoButton.frame.minY - 8)
+        view.addSubview(locationAccuracyLabel)
+        
         // Set up captured image view
         capturedImageView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: view.bounds.width)
         view.addSubview(capturedImageView)
@@ -87,6 +95,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         capturedImageView.hidden = true
         usePhotoButton.hidden = true     // Hide until picture is taken
         retakePictureButton.hidden = true
+        locationAccuracyLabel.hidden = true
         
         // Set up Capture Session
         captureSession = AVCaptureSession()
@@ -294,25 +303,27 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 
                 // Save image data
                 self.pictureData = UIImageJPEGRepresentation(croppedImage, 1.0)
+                
+                // Show capturedImageView and buttons
+                self.capturedImageView.hidden = false
+                self.usePhotoButton.hidden = false
+                self.retakePictureButton.hidden = false
+                self.locationAccuracyLabel.hidden = false
+                
+                // Hide previewLayer
+                self.previewLayer!.hidden = true
+                self.capturePhotoButton.hidden = true
             })
         }
         
         // Capture the location
         pictureLocation = locationManager!.location
+        self.locationAccuracyLabel.text = "Accuracy: \(pictureLocation!.horizontalAccuracy)m"
         print("\n\nPicture Location: \(pictureLocation)")
         print("\tCoordinate: \(pictureLocation!.coordinate)")
         print("\tFloor: \(pictureLocation!.floor)")
         print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
         print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
-        
-        // Show capturedImageView and buttons
-        capturedImageView.hidden = false
-        usePhotoButton.hidden = false
-        retakePictureButton.hidden = false
-        
-        // Hide previewLayer
-        previewLayer!.hidden = true
-        capturePhotoButton.hidden = true
     }
     
     func retakePictureButtonTapped() {
@@ -327,6 +338,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         
         usePhotoButton.hidden = true
         retakePictureButton.hidden = true
+        locationAccuracyLabel.hidden = true
     }
     
     func usePhotoButtonTapped() {
@@ -366,33 +378,34 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 if (tagField.text != nil) {
                     tagText = tagField.text!
                 }
-                print("tag field: \(tagField)")
+                
+                let realm = try? Realm()
+                
+                let newPuzzle = Puzzle()
+                newPuzzle.latitude = self.pictureLocation!.coordinate.latitude
+                newPuzzle.longitude = self.pictureLocation!.coordinate.longitude
+                newPuzzle.horizontalAccuracy = self.pictureLocation!.horizontalAccuracy
+                newPuzzle.pictureData = self.pictureData!
+                newPuzzle.tag = tagText
+                
+                do {
+                    try realm!.write({ () -> Void in
+                        realm!.add(newPuzzle)
+                    })
+                    
+                    self.retakePictureButtonTapped()
+                } catch {
+                    print("Error saving to Realm: \(error)")
+                    
+                    // Alert realm error
+                    let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the database creating your puzzle.", preferredStyle: .Alert)
+                    let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                    errorAlertController.addAction(dismissAlertAction)
+                    self.presentViewController(errorAlertController, animated: true, completion: nil)
+                }
             })
             tagAlertController.addAction(doneAlertAction)
             presentViewController(tagAlertController, animated: true, completion: nil)
-            
-            let realm = try? Realm()
-            
-            let newPuzzle = Puzzle()
-            newPuzzle.latitude = pictureLocation!.coordinate.latitude
-            newPuzzle.longitude = pictureLocation!.coordinate.longitude
-            newPuzzle.horizontalAccuracy = pictureLocation!.horizontalAccuracy
-            newPuzzle.pictureData = pictureData!
-            newPuzzle.tag = tagText
-            
-            do {
-                try realm!.write({ () -> Void in
-                    realm!.add(newPuzzle)
-                })
-            } catch {
-                print("Error saving to Realm: \(error)")
-                
-                // Alert realm error
-                let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the database creating your puzzle.", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-                errorAlertController.addAction(dismissAlertAction)
-                presentViewController(errorAlertController, animated: true, completion: nil)
-            }
         }
     }
     

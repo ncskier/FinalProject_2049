@@ -57,6 +57,10 @@ class PuzzlesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return view.frame.width/4.0
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

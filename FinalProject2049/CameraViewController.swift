@@ -289,6 +289,15 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
                 let croppedImage = self.cropToSquare(image: contextImage)
                 
                 self.capturedImageView.image = croppedImage
+                
+                // Show capturedImageView and buttons
+                self.capturedImageView.hidden = false
+                self.usePhotoButton.hidden = false
+                self.retakePictureButton.hidden = false
+                
+                // Hide previewLayer
+                self.previewLayer!.hidden = true
+                self.capturePhotoButton.hidden = true
             })
         }
         
@@ -299,15 +308,6 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         print("\tFloor: \(pictureLocation!.floor)")
         print("\tHorizontal accuracy: \(pictureLocation!.horizontalAccuracy) (meters)")
         print("\tVertical accuracy: \(pictureLocation!.verticalAccuracy) (meters)")
-        
-        // Show capturedImageView and buttons
-        capturedImageView.hidden = false
-        usePhotoButton.hidden = false
-        retakePictureButton.hidden = false
-        
-        // Hide previewLayer
-        previewLayer!.hidden = true
-        capturePhotoButton.hidden = true
         
     }
 

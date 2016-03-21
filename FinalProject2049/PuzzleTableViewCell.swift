@@ -10,7 +10,7 @@ import UIKit
 
 class PuzzleTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var detailImageView: UIImageView!
+    let detailImageView = UIImageView()
     
     var puzzle : Puzzle! {
         didSet(newValue) {
@@ -31,7 +31,11 @@ class PuzzleTableViewCell: UITableViewCell {
     
     func updateUI() {
         let image = UIImage(data: puzzle.pictureData)
-        imageView!.image = image
+        detailImageView.frame = CGRect(x: 0, y: 0, width: frame.width/2.0, height: frame.width/2.0)
+        detailImageView.center = CGPoint(x: detailImageView.frame.width/2.0, y: frame.height/2.0)
+        detailImageView.image = image
+        addSubview(detailImageView)
+        
     }
 
 }
