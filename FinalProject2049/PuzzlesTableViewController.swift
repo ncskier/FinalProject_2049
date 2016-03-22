@@ -7,23 +7,43 @@
 //
 
 import UIKit
-import RealmSwift
+import Firebase
 
 class PuzzlesTableViewController: UITableViewController {
     
-    var token : NotificationToken?
-    var puzzles : Results<Puzzle>!
+    var puzzles = [Puzzle]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let fireBaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
+        let puzzlesReference = fireBaseReference.childByAppendingPath("puzzles")
         
-        let realm = try! Realm()
-        token = realm.addNotificationBlock({ (notification, realm) -> Void in
+        // Attach a closure to read the data at our posts reference
+        puzzlesReference.observeEventType(.Value, withBlock: {(snapshot) in
+            
+            self.puzzles = [Puzzle]()
+            
+            for snapshotChild in snapshot.children {
+                let firebaseData = (snapshotChild as! FDataSnapshot).value as! [String : NSObject]
+                let puzzle = Puzzle(fromFirebaseData: firebaseData)
+                self.puzzles.append(puzzle)
+            }
+            
+            print("reload")
+            print("puzzles: \(self.puzzles)")
             self.tableView.reloadData()
+            
+        }, withCancelBlock: {(error) in
+            
+            print("Error getting data from Firebase: \(error)")
+            
+            // Alert User of error
+            let errorAlertController = UIAlertController(title: "Error Retrieving Puzzles", message: "There was an error with the database retrieving the puzzles.", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            self.presentViewController(errorAlertController, animated: true, completion: nil)
         })
-        
-        puzzles = realm.objects(Puzzle)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

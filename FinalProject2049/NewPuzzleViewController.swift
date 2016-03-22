@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreLocation
-import RealmSwift
+import Firebase
 
 class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -126,7 +126,6 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         
         // Start session
         captureSession!.startRunning()
-        print("capturePhotobutton: \(capturePhotoButton)")
     }
     
     func setupLocationServices() {
@@ -313,6 +312,9 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 // Hide previewLayer
                 self.previewLayer!.hidden = true
                 self.capturePhotoButton.hidden = true
+                
+                print("number of bytes: \(self.pictureData!.bytes)")
+//                print("description: \(self.pictureData!.description)")
             })
         }
         
@@ -361,49 +363,60 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
             
         } else {
             // Create Puzzle Object
-            var tagText = ""
+            var tagsText = ""
             
             print("Ask for tags")
             
             // Ask user for tags
-            let tagAlertController = UIAlertController(title: "Add Tag", message: "Please enter a tag for your puzzle. For example, Cornell University.", preferredStyle: .Alert)
+            let tagAlertController = UIAlertController(title: "Add Tag", message: "Please enter tags for your puzzle separated by commas. For example, Cornell University.", preferredStyle: .Alert)
             tagAlertController.addTextFieldWithConfigurationHandler({(textField) in
                 
-                textField.placeholder = "Tag"
+                textField.placeholder = "Tags"
                 
             })
             let doneAlertAction = UIAlertAction(title: "Done", style: .Default, handler: {(action) in
                 
-                let tagField = tagAlertController.textFields!.first!
-                if (tagField.text != nil) {
-                    tagText = tagField.text!
+                let tagsField = tagAlertController.textFields!.first!
+                if (tagsField.text != nil) {
+                    tagsText = tagsField.text!
                 }
                 
-                let realm = try? Realm()
+                // Create Puzzle Object
+                let newPuzzle = Puzzle(
+                    withPictureData: self.pictureData!,
+                    latitude: self.pictureLocation!.coordinate.latitude,
+                    longitude: self.pictureLocation!.coordinate.longitude,
+                    horizontalAccuracy: self.pictureLocation!.horizontalAccuracy,
+                    tags: tagsText
+                )
                 
-                let newPuzzle = Puzzle()
-                newPuzzle.latitude = self.pictureLocation!.coordinate.latitude
-                newPuzzle.longitude = self.pictureLocation!.coordinate.longitude
-                newPuzzle.horizontalAccuracy = self.pictureLocation!.horizontalAccuracy
-                newPuzzle.pictureData = self.pictureData!
-                newPuzzle.tag = tagText
+                // Save puzzle
+                let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
                 
-                do {
-                    try realm!.write({ () -> Void in
-                        realm!.add(newPuzzle)
-                    })
+                let puzzlesRef = firebaseReference.childByAppendingPath("puzzles")
+                let newPuzzleRef = puzzlesRef.childByAutoId()
+                newPuzzleRef.setValue(newPuzzle.convertToFirebaseData(), withCompletionBlock: {(error, firebaseRef) in
                     
-                    self.retakePictureButtonTapped()
-                } catch {
-                    print("Error saving to Realm: \(error)")
-                    
-                    // Alert realm error
-                    let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the database creating your puzzle.", preferredStyle: .Alert)
-                    let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-                    errorAlertController.addAction(dismissAlertAction)
-                    self.presentViewController(errorAlertController, animated: true, completion: nil)
-                }
+                    if (error != nil) {
+                        print("Error saving to firebase: \(error)")
+                        
+                        // Alert User of error
+                        let errorAlertController = UIAlertController(title: "Error Creating Puzzle", message: "There was an error with the database creating your puzzle.", preferredStyle: .Alert)
+                        let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                        errorAlertController.addAction(dismissAlertAction)
+                        self.presentViewController(errorAlertController, animated: true, completion: nil)
+                        
+                        // Save puzzle locally
+                        // #Warning
+                    } else {
+                        print("Succesfully saved to Firebase")
+                    }
+                })
+                
+                // Return to camera mode
+                self.retakePictureButtonTapped()
             })
+            
             tagAlertController.addAction(doneAlertAction)
             presentViewController(tagAlertController, animated: true, completion: nil)
         }

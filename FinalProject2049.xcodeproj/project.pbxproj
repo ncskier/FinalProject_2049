@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2026A4A61C9CAFB700AFAE18 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2026A4A51C9CAFB700AFAE18 /* Models.swift */; };
+		2047B74C1CA1AEF00060E3DC /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2047B74B1CA1AEF00060E3DC /* Puzzle.swift */; };
 		20AC85651C9A3B4C00D6ABF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */; };
 		20AC856A1C9A3B4C00D6ABF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20AC85681C9A3B4C00D6ABF3 /* Main.storyboard */; };
 		20AC856C1C9A3B4C00D6ABF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20AC856B1C9A3B4C00D6ABF3 /* Assets.xcassets */; };
@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2026A4A51C9CAFB700AFAE18 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		2047B74B1CA1AEF00060E3DC /* Puzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 		20AC85611C9A3B4C00D6ABF3 /* FinalProject2049.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject2049.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20AC85641C9A3B4C00D6ABF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20AC85691C9A3B4C00D6ABF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 				20AFD0FB1C9DBD0E0035F240 /* NewPuzzleViewController.swift */,
 				20AC857D1C9B14FE00D6ABF3 /* CameraViewController.swift */,
 				20B67E761C9E156F001C84D7 /* PuzzleTableViewCell.swift */,
-				2026A4A51C9CAFB700AFAE18 /* Models.swift */,
+				2047B74B1CA1AEF00060E3DC /* Puzzle.swift */,
 				20AC85681C9A3B4C00D6ABF3 /* Main.storyboard */,
 				20AC856B1C9A3B4C00D6ABF3 /* Assets.xcassets */,
 				20AC856D1C9A3B4C00D6ABF3 /* LaunchScreen.storyboard */,
@@ -234,8 +234,8 @@
 				20AC85651C9A3B4C00D6ABF3 /* AppDelegate.swift in Sources */,
 				20B67E7D1C9E28EA001C84D7 /* SolvePuzzleViewController.swift in Sources */,
 				20B67E771C9E156F001C84D7 /* PuzzleTableViewCell.swift in Sources */,
+				2047B74C1CA1AEF00060E3DC /* Puzzle.swift in Sources */,
 				20AFD0F81C9CDB5D0035F240 /* PuzzlesTableViewController.swift in Sources */,
-				2026A4A61C9CAFB700AFAE18 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

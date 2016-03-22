@@ -33,7 +33,7 @@
                             <outlet property="delegate" destination="pFS-pV-E7n" id="BL3-tK-Rnf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="1LL-HY-wGT"/>
+                    <navigationItem key="navigationItem" title="Puzzles" id="1LL-HY-wGT"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DkK-kb-Eb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
