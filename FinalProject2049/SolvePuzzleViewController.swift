@@ -67,7 +67,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             width: width,
             height: height
         )
-        retakePictureButton.addTarget(self, action: "retakePictureButtonTapped", forControlEvents: .TouchUpInside)
+        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(retakePictureButton)
         
         // Capture Photo Button
@@ -81,7 +81,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         )
         capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
         capturePhotoButton.backgroundColor = UIColor.blackColor()
-        capturePhotoButton.addTarget(self, action: "capturePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(capturePhotoButton)
         view.bringSubviewToFront(capturePhotoButton)
         
@@ -377,4 +377,9 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     */
     
+    override func viewWillDisappear(animated: Bool) {
+        if (locationManager != nil && CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) {
+            locationManager!.stopUpdatingLocation()
+        }
+    }
 }

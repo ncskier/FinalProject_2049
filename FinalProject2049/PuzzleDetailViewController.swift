@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PuzzleDetailViewController: UIViewController {
     
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var puzzleImageView: UIImageView!
     
     var puzzle : Puzzle!
@@ -30,6 +32,56 @@ class PuzzleDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func saveButtonTapped(sender: UIButton) {
+        
+        print("title text: \(saveButton.titleLabel!.text)")
+        
+        if saveButton.titleLabel!.text == "Save" {
+            
+            print("Saved")
+            
+            // Save Puzzle
+            do {
+                let realm = try Realm()
+                
+                try realm.write({
+                    realm.add(puzzle)
+                })
+            }
+            catch {
+                print("Error saving puzzle: \(error)")
+                
+                let errorAlertController = UIAlertController(title: "Error Saving Puzzle", message: "\(error)", preferredStyle: .Alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                errorAlertController.addAction(dismissAlertAction)
+                presentViewController(errorAlertController, animated: true, completion: nil)
+            }
+            
+            
+        } else {
+            
+            print("Remove")
+            
+            // Remove Puzzle
+            do {
+                let realm = try Realm()
+                
+                try realm.write({
+                    realm.delete(puzzle)
+                })
+            }
+            catch {
+                print("error deleting puzzle: \(error)")
+                
+                let errorAlertController = UIAlertController(title: "Error Removing Puzzle", message: "\(error)", preferredStyle: .Alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                errorAlertController.addAction(dismissAlertAction)
+                presentViewController(errorAlertController, animated: true, completion: nil)
+            }
+            
+        }
+        
+    }
     
     // MARK: - Navigation
 

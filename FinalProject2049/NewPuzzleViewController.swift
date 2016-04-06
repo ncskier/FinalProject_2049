@@ -50,7 +50,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
             width: width,
             height: height
         )
-        usePhotoButton.addTarget(self, action: "usePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        usePhotoButton.addTarget(self, action: #selector(usePhotoButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(usePhotoButton)
         
         // Retake Picture Button
@@ -62,7 +62,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
             width: width,
             height: height
         )
-        retakePictureButton.addTarget(self, action: "retakePictureButtonTapped", forControlEvents: .TouchUpInside)
+        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(retakePictureButton)
         
         // Capture Photo Button
@@ -76,7 +76,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         )
         capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
         capturePhotoButton.backgroundColor = UIColor.blackColor()
-        capturePhotoButton.addTarget(self, action: "capturePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(capturePhotoButton)
         view.bringSubviewToFront(capturePhotoButton)
         
@@ -243,17 +243,6 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         presentViewController(errorAlertController, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        //        let currentLocation = locations.last!
-        
-        //        print("\ncurrent location: \(currentLocation)")
-        //        print("\tCoordinate: \(currentLocation.coordinate)")
-        //        print("\tFloor: \(currentLocation.floor)")
-        //        print("\tHorizontal accuracy: \(currentLocation.horizontalAccuracy) (meters)")
-        //        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
-    }
-    
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         if (status == .AuthorizedWhenInUse) {
@@ -265,20 +254,12 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
         print("Did finish deferring updates with error: \(error!.description)")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        print("Did update heading: \(newHeading)")
-    }
-    
     func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
         print("did pause location updates")
     }
     
     func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
         print("Did resume location updates")
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        print("did update to location: \(newLocation)")
     }
     
     
@@ -431,5 +412,20 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
     // Pass the selected object to the new view controller.
     }
     */
-
+    
+    override func viewWillDisappear(animated: Bool) {
+        if (locationManager != nil && CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) {
+            print("stop updating location")
+            locationManager!.stopUpdatingLocation()
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        print("view will appear")
+        if (locationManager != nil && CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) {
+            print("start updating location")
+            locationManager!.startUpdatingLocation()
+        }
+    }
+    
 }

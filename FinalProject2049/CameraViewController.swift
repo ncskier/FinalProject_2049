@@ -47,7 +47,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
             width: width,
             height: height
         )
-        usePhotoButton.addTarget(self, action: "usePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        usePhotoButton.addTarget(self, action: #selector(usePhotoButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(usePhotoButton)
         
         // Retake Picture Button
@@ -59,7 +59,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
             width: width,
             height: height
         )
-        retakePictureButton.addTarget(self, action: "retakePictureButtonTapped", forControlEvents: .TouchUpInside)
+        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(retakePictureButton)
         
         // Capture Photo Button
@@ -73,7 +73,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         )
         capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
         capturePhotoButton.backgroundColor = UIColor.blackColor()
-        capturePhotoButton.addTarget(self, action: "capturePhotoButtonTapped", forControlEvents: .TouchUpInside)
+        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(capturePhotoButton)
         view.bringSubviewToFront(capturePhotoButton)
         

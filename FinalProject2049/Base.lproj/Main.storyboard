@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Utp-Qh-ymq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Utp-Qh-ymq">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Puzzles-->
-        <scene sceneID="DNw-Qh-FpI">
+        <scene sceneID="kdj-16-H8z">
             <objects>
-                <tableViewController title="Puzzles" id="pFS-pV-E7n" customClass="PuzzlesTableViewController" customModule="FinalProject2049" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="gXs-c3-uBk">
+                <viewController id="BES-Kl-euD" customClass="PuzzlesViewController" customModule="FinalProject2049" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PrF-Il-lBq"/>
+                        <viewControllerLayoutGuide type="bottom" id="9GD-es-nge"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dc7-tR-C9K">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="puzzleCell" id="dgs-Rk-TaI" customClass="PuzzleTableViewCell" customModule="FinalProject2049" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dgs-Rk-TaI" id="dmz-E0-8FW">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m9E-eH-qjG">
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="puzzleCell" id="Zf8-Ks-sjP" customClass="PuzzleTableViewCell" customModule="FinalProject2049" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zf8-Ks-sjP" id="auk-rH-jU3">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="PgL-1J-fdg" kind="show" id="j0w-r4-UVy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="T7W-WC-wyK">
+                                <rect key="frame" x="248" y="72" width="105" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="d5A-Qn-F4D"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Saved"/>
+                                    <segment title="All"/>
+                                </segments>
                                 <connections>
-                                    <segue destination="PgL-1J-fdg" kind="show" id="O5Q-tk-ga2"/>
+                                    <action selector="segmentedControlChanged:" destination="BES-Kl-euD" eventType="valueChanged" id="Qak-BN-1Yr"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="pFS-pV-E7n" id="yjC-p6-hoB"/>
-                            <outlet property="delegate" destination="pFS-pV-E7n" id="BL3-tK-Rnf"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Puzzles" id="1LL-HY-wGT"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DkK-kb-Eb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9GD-es-nge" firstAttribute="top" secondItem="m9E-eH-qjG" secondAttribute="bottom" id="3bN-t0-uz0"/>
+                            <constraint firstItem="T7W-WC-wyK" firstAttribute="centerX" secondItem="Dc7-tR-C9K" secondAttribute="centerX" id="b6p-XP-Ale"/>
+                            <constraint firstItem="m9E-eH-qjG" firstAttribute="leading" secondItem="Dc7-tR-C9K" secondAttribute="leadingMargin" constant="-20" id="hJy-c6-Clh"/>
+                            <constraint firstItem="T7W-WC-wyK" firstAttribute="top" secondItem="PrF-Il-lBq" secondAttribute="bottom" constant="8" id="qh4-yk-zlW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m9E-eH-qjG" secondAttribute="trailing" constant="-20" id="sVb-SC-FJ0"/>
+                            <constraint firstItem="m9E-eH-qjG" firstAttribute="top" secondItem="T7W-WC-wyK" secondAttribute="bottom" constant="8" id="yQH-cf-3dH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Puzzles" id="pKV-Co-vQE"/>
+                    <connections>
+                        <outlet property="puzzlesTableView" destination="m9E-eH-qjG" id="Et1-Hd-Zb5"/>
+                        <outlet property="segmentedControlView" destination="T7W-WC-wyK" id="fv6-FG-hy4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A9K-Xe-fV0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1427" y="330"/>
+            <point key="canvasLocation" x="1367" y="330"/>
         </scene>
         <!--Puzzle Detail View Controller-->
         <scene sceneID="Flj-sb-wJL">
@@ -67,11 +98,21 @@
                                     <segue destination="Nv7-M4-0f0" kind="presentation" identifier="solvePuzzleSegue" id="L9l-aa-X8o"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcb-0G-8yV">
+                                <rect key="frame" x="283" y="475" width="34" height="30"/>
+                                <state key="normal" title="Save"/>
+                                <state key="selected" title="Saved"/>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="PgL-1J-fdg" eventType="touchUpInside" id="wbO-QK-Kja"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eGC-2v-r1K" firstAttribute="centerX" secondItem="O9j-6O-M59" secondAttribute="centerX" id="0Jg-N7-49X"/>
+                            <constraint firstItem="eGC-2v-r1K" firstAttribute="top" secondItem="hcb-0G-8yV" secondAttribute="bottom" constant="8" id="5hB-BJ-04f"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8n5-KP-z6d" secondAttribute="trailing" constant="80" id="60j-ep-wDj"/>
+                            <constraint firstItem="hcb-0G-8yV" firstAttribute="centerX" secondItem="O9j-6O-M59" secondAttribute="centerX" id="717-Sr-xcQ"/>
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="top" secondItem="sQg-fI-Juj" secondAttribute="bottom" constant="30" id="Bdr-na-QRG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8n5-KP-z6d" secondAttribute="trailing" constant="8" id="R42-Gy-rae"/>
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="leading" secondItem="O9j-6O-M59" secondAttribute="leadingMargin" constant="80" id="THK-NE-ZoJ"/>
@@ -88,6 +129,7 @@
                     </view>
                     <connections>
                         <outlet property="puzzleImageView" destination="8n5-KP-z6d" id="ZRr-1N-gPp"/>
+                        <outlet property="saveButton" destination="hcb-0G-8yV" id="eNI-xW-sAT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oPs-Pi-VkQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -156,7 +198,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="pFS-pV-E7n" kind="relationship" relationship="rootViewController" id="BvY-gT-cIk"/>
+                        <segue destination="BES-Kl-euD" kind="relationship" relationship="rootViewController" id="Hg2-Fa-fBz"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pMS-V0-9LX" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -1,14 +1,17 @@
 //
-//  Puzzle.swift
+//  Models.swift
 //  FinalProject2049
 //
-//  Created by Brandon Walker on 3/22/16.
+//  Created by Brandon Walker on 4/5/16.
 //  Copyright © 2016 Brandon Walker. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import RealmSwift
 
-class Puzzle: NSObject {
+class Puzzle: Object {
+    
+    dynamic var id : String = ""
     
     dynamic var pictureData : NSData!
     
@@ -22,7 +25,13 @@ class Puzzle: NSObject {
         return "(\(latitude), \(longitude))\nHorizontal Accuracy: \(horizontalAccuracy)\ntags: \(tags)"
     }
     
-    init(withPictureData pictureData: NSData, latitude: Double, longitude: Double, horizontalAccuracy: Double, tags: String) {
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    
+    convenience init(withPictureData pictureData: NSData, latitude: Double, longitude: Double, horizontalAccuracy: Double, tags: String) {
+        self.init()
         
         self.pictureData = pictureData
         self.latitude = latitude
@@ -31,7 +40,10 @@ class Puzzle: NSObject {
         self.tags = tags
     }
     
-    init(fromFirebaseData firebaseData: [String : NSObject]) {
+    convenience init(fromFirebaseData firebaseData: [String : NSObject]) {
+        self.init()
+        
+        id = firebaseData["id"] as! String
         
         pictureData = NSData(base64EncodedString: firebaseData["pictureData"] as! String, options: [])
         
