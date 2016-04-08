@@ -63,9 +63,9 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PC8-uS-gJp">
-                                                    <rect key="frame" x="490" y="26" width="18" height="21"/>
+                                                    <rect key="frame" x="480" y="26" width="18" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.23921568627450981" green="0.84705882352941175" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Mr-fQ-f24">
@@ -74,11 +74,11 @@
                                                         <constraint firstAttribute="height" constant="21" id="gqJ-bR-NSD"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.035294117647058823" green="0.32941176470588235" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fJV-ub-zqE">
-                                                    <rect key="frame" x="516" y="22" width="30" height="30"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="green_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="fJV-ub-zqE">
+                                                    <rect key="frame" x="506" y="22" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="R5p-2b-Pz9"/>
                                                         <constraint firstAttribute="width" secondItem="fJV-ub-zqE" secondAttribute="height" multiplier="1:1" id="dgZ-am-FE7"/>
@@ -101,10 +101,10 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="qYj-d5-RfP" secondAttribute="trailing" constant="8" id="7x0-nV-l11"/>
                                                 <constraint firstItem="4Fy-34-0gs" firstAttribute="top" secondItem="0Mr-fQ-f24" secondAttribute="bottom" id="AV3-17-fqx"/>
+                                                <constraint firstItem="qYj-d5-RfP" firstAttribute="leading" secondItem="fJV-ub-zqE" secondAttribute="trailing" constant="18" id="B3x-6V-eqh"/>
                                                 <constraint firstItem="0Mr-fQ-f24" firstAttribute="top" secondItem="qYj-d5-RfP" secondAttribute="bottom" id="Lhv-LK-LGS"/>
                                                 <constraint firstItem="4Fy-34-0gs" firstAttribute="centerX" secondItem="qYj-d5-RfP" secondAttribute="centerX" id="Ncg-7i-c9j"/>
                                                 <constraint firstItem="0Mr-fQ-f24" firstAttribute="centerY" secondItem="R9e-NZ-OX9" secondAttribute="centerY" id="O9n-GK-l0u"/>
-                                                <constraint firstItem="0Mr-fQ-f24" firstAttribute="leading" secondItem="fJV-ub-zqE" secondAttribute="trailing" constant="8" id="WnV-lN-qi7"/>
                                                 <constraint firstItem="fJV-ub-zqE" firstAttribute="leading" secondItem="PC8-uS-gJp" secondAttribute="trailing" constant="8" id="aLb-GD-df1"/>
                                                 <constraint firstItem="fJV-ub-zqE" firstAttribute="centerY" secondItem="R9e-NZ-OX9" secondAttribute="centerY" id="gsb-aV-xmF"/>
                                                 <constraint firstItem="0Mr-fQ-f24" firstAttribute="centerX" secondItem="qYj-d5-RfP" secondAttribute="centerX" id="qOK-5O-X3u"/>
@@ -115,7 +115,7 @@
                                             <outlet property="downVoteButton" destination="4Fy-34-0gs" id="U1q-A1-ydm"/>
                                             <outlet property="numberAnswersLabel" destination="PC8-uS-gJp" id="OpQ-Az-MSd"/>
                                             <outlet property="upVoteButton" destination="qYj-d5-RfP" id="zJp-tC-O3y"/>
-                                            <outlet property="voteLabel" destination="0Mr-fQ-f24" id="dYq-Bb-ftD"/>
+                                            <outlet property="votesLabel" destination="0Mr-fQ-f24" id="tvg-WC-SKb"/>
                                             <segue destination="PgL-1J-fdg" kind="show" id="SGA-vE-xfz"/>
                                         </connections>
                                     </tableViewCell>
@@ -319,6 +319,7 @@
     </scenes>
     <resources>
         <image name="downCarrot_deselected" width="85" height="51"/>
+        <image name="green_checkmark" width="98" height="98"/>
         <image name="upCarrot_deselected" width="85" height="51"/>
     </resources>
 </document>

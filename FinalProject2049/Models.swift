@@ -19,10 +19,12 @@ class Puzzle: Object {
     dynamic var latitude : Double = 0
     dynamic var horizontalAccuracy : Double = 10
     
-    dynamic var tags : String = ""
+    dynamic var tag : String = ""
+    dynamic var votes : Int = 0
+    dynamic var usersAnswered : Int = 0
     
     override var description : String {
-        return "(\(latitude), \(longitude))\nHorizontal Accuracy: \(horizontalAccuracy)\ntags: \(tags)"
+        return "id: \(id)\n(\(latitude), \(longitude))\nHorizontal Accuracy: \(horizontalAccuracy)\ntag: \(tag)\nvotes: \(votes)\nusersAnswered: \(usersAnswered)"
     }
     
     override static func primaryKey() -> String? {
@@ -30,14 +32,14 @@ class Puzzle: Object {
     }
     
     
-    convenience init(withPictureData pictureData: NSData, latitude: Double, longitude: Double, horizontalAccuracy: Double, tags: String) {
+    convenience init(withPictureData pictureData: NSData, latitude: Double, longitude: Double, horizontalAccuracy: Double, tag: String) {
         self.init()
         
         self.pictureData = pictureData
         self.latitude = latitude
         self.longitude = longitude
         self.horizontalAccuracy = horizontalAccuracy
-        self.tags = tags
+        self.tag = tag
     }
     
     convenience init(fromFirebaseData firebaseData: [String : NSObject]) {
@@ -51,7 +53,10 @@ class Puzzle: Object {
         latitude = Double(firebaseData["latitude"] as! String)!
         horizontalAccuracy = Double(firebaseData["horizontalAccuracy"] as! String)!
         
-        tags = firebaseData["tags"] as! String
+        tag = firebaseData["tag"] as! String
+        votes = Int(String(firebaseData["votes"]!))!
+        usersAnswered = Int(String(firebaseData["usersAnswered"]!))!
+        
     }
     
     func convertToFirebaseData() -> [String : String] {
@@ -63,7 +68,9 @@ class Puzzle: Object {
         dataDictionary["longitude"] = "\(longitude)"
         dataDictionary["latitude"] = "\(latitude)"
         dataDictionary["horizontalAccuracy"] = "\(horizontalAccuracy)"
-        dataDictionary["tags"] = tags
+        dataDictionary["tag"] = tag
+        dataDictionary["votes"] = "\(votes)"
+        dataDictionary["usersAnswered"] = "\(usersAnswered)"
         
         return dataDictionary
     }

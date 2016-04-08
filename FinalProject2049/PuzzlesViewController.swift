@@ -83,7 +83,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
             // Load Realm data
-            
+            puzzlesTableView.reloadData()
             refreshControl.endRefreshing()
             
         } else {    // Firebase Puzzles
@@ -97,8 +97,8 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         loadingFirebasePuzzles = true
         
         // Firebase
-        let fireBaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReference = fireBaseReference.childByAppendingPath("puzzles")
+        let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
+        let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
         puzzlesReference.observeEventType(
@@ -111,8 +111,20 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 for snapshotChild in snapshot.children {
                     var firebaseData = (snapshotChild as! FDataSnapshot).value as! [String : NSObject]
                     firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
-                    let puzzle = Puzzle(fromFirebaseData: firebaseData)
-                    self.allPuzzles.append(puzzle)
+                    
+                    // Check if puzzle is already saved
+                    var puzzle: Puzzle? = nil
+                    for savedPuzzle in self.savedPuzzles {
+                        if (firebaseData["id"] == savedPuzzle.id) {
+                            puzzle = savedPuzzle
+                        }
+                    }
+                    
+                    if (puzzle == nil) {
+                        puzzle = Puzzle(fromFirebaseData: firebaseData)
+                    }
+                    
+                    self.allPuzzles.append(puzzle!)
                 }
                 
                 // Reload Table

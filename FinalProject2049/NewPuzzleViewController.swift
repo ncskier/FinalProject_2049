@@ -344,22 +344,22 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
             
         } else {
             // Create Puzzle Object
-            var tagsText = ""
+            var tagText = ""
             
-            print("Ask for tags")
+            print("Ask for tag")
             
-            // Ask user for tags
-            let tagAlertController = UIAlertController(title: "Add Tag", message: "Please enter tags for your puzzle separated by commas. For example, Cornell University.", preferredStyle: .Alert)
+            // Ask user for tag
+            let tagAlertController = UIAlertController(title: "Add Tag", message: "Please enter a tag for your puzzle. For example, Cornell University.", preferredStyle: .Alert)
             tagAlertController.addTextFieldWithConfigurationHandler({(textField) in
                 
-                textField.placeholder = "Tags"
+                textField.placeholder = "Tag"
                 
             })
             let doneAlertAction = UIAlertAction(title: "Done", style: .Default, handler: {(action) in
                 
-                let tagsField = tagAlertController.textFields!.first!
-                if (tagsField.text != nil) {
-                    tagsText = tagsField.text!
+                let tagField = tagAlertController.textFields!.first!
+                if (tagField.text != nil) {
+                    tagText = tagField.text!
                 }
                 
                 // Create Puzzle Object
@@ -368,7 +368,7 @@ class NewPuzzleViewController: UIViewController, CLLocationManagerDelegate {
                     latitude: self.pictureLocation!.coordinate.latitude,
                     longitude: self.pictureLocation!.coordinate.longitude,
                     horizontalAccuracy: self.pictureLocation!.horizontalAccuracy,
-                    tags: tagsText
+                    tag: tagText
                 )
                 
                 // Save puzzle
