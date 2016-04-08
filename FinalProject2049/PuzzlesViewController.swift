@@ -19,6 +19,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     var savedPuzzles : Results<Puzzle>!
     var allPuzzles = [Puzzle]()
     var refreshControl = UIRefreshControl()
+    var loadingFirebasePuzzles = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,12 +49,14 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
             presentViewController(errorAlertController, animated: true, completion: nil)
         }
         
+        // Load Firebase data
+        loadFirebasePuzzles()
+        
         // Refresh Control
-//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-//        refreshControl.addTarget(self, action: #selector(refreshControlPulled), forControlEvents: .ValueChanged)
-//        puzzlesTableView.addSubview(refreshControl)
-//        refreshControl.beginRefreshing()
-        refreshControlPulled()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), forControlEvents: .ValueChanged)
+        puzzlesTableView.addSubview(refreshControl)
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -78,12 +81,28 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Change title
         refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
         
+        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
+            // Load Realm data
+            
+            refreshControl.endRefreshing()
+            
+        } else {    // Firebase Puzzles
+            // Load firebase data
+            loadFirebasePuzzles()
+        }
+    }
+    
+    func loadFirebasePuzzles() {
+        // Update status
+        loadingFirebasePuzzles = true
+        
         // Firebase
         let fireBaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
         let puzzlesReference = fireBaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
-        puzzlesReference.queryLimitedToFirst(10).observeEventType(
+        puzzlesReference.observeEventType(
+            //        puzzlesReference.queryLimitedToFirst(10).observeEventType(    // Get first 10 items
             .Value,
             withBlock: {(snapshot) in
                 
@@ -102,16 +121,17 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // End Refresh
                 self.refreshControl.endRefreshing()
                 self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+                self.loadingFirebasePuzzles = false
                 
-                }, withCancelBlock: {(error) in
-                    
-                    print("Error getting data from Firebase: \(error)")
-                    
-                    // Alert User of error
-                    let errorAlertController = UIAlertController(title: "Error Retrieving Puzzles", message: "There was an error with the database retrieving the puzzles.", preferredStyle: .Alert)
-                    let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-                    errorAlertController.addAction(dismissAlertAction)
-                    self.presentViewController(errorAlertController, animated: true, completion: nil)
+            }, withCancelBlock: {(error) in
+                
+                print("Error getting data from Firebase: \(error)")
+                
+                // Alert User of error
+                let errorAlertController = UIAlertController(title: "Error Retrieving Puzzles", message: "There was an error with the database retrieving the puzzles.", preferredStyle: .Alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                errorAlertController.addAction(dismissAlertAction)
+                self.presentViewController(errorAlertController, animated: true, completion: nil)
         })
     }
     
@@ -121,7 +141,34 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         puzzlesTableView.reloadData()
         
         // Scroll to first cell
-//        puzzlesTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+        var canScroll = true
+        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
+            if (savedPuzzles.count == 0) {
+                canScroll = false
+            }
+            
+            // Update Refreshing
+            if (refreshControl.refreshing) {
+                refreshControl.endRefreshing()
+            }
+            
+        } else {    // All Puzzles
+            if (allPuzzles.count == 0) {
+                canScroll = false
+            }
+            
+            // Update Refreshing
+            if (refreshControl.refreshing) {
+                refreshControl.endRefreshing()
+            }
+            if (loadingFirebasePuzzles) {
+                refreshControl.beginRefreshing()
+            }
+        }
+        
+        if (canScroll) {
+            puzzlesTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+        }
         
     }
 
@@ -152,9 +199,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return view.frame.width/4.0
-    }
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        return view.frame.width/4.0
+//    }
     
     /*
     // Override to support conditional editing of the table view.
