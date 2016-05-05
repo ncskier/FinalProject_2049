@@ -15,7 +15,7 @@ class PuzzleTableViewCell: UITableViewCell {
     @IBOutlet weak var upVoteButton: UIButton!
     @IBOutlet weak var downVoteButton: UIButton!
     @IBOutlet weak var votesLabel: UILabel!
-    @IBOutlet weak var numberAnswersLabel: UILabel!
+    @IBOutlet weak var usersCorrectLabel: UILabel!      // SOLVED
     
     let detailImageView = UIImageView()
     var userVote : Int!
@@ -49,12 +49,14 @@ class PuzzleTableViewCell: UITableViewCell {
         // Vote Buttons
         // Get Previous Vote
         let defaults = NSUserDefaults.standardUserDefaults()
-        userVote = defaults.integerForKey(puzzle.id)
+        userVote = defaults.integerForKey(puzzle.id + ".userVote")
         
         if (userVote == 1) {    // Up Vote
             upVoteButton.setImage(UIImage(named: "upCarrot_selected"), forState: .Normal)
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
         }
         if (userVote == -1) {    // Down Vote
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
             downVoteButton.setImage(UIImage(named: "downCarrot_selected"), forState: .Normal)
         }
         
@@ -62,7 +64,13 @@ class PuzzleTableViewCell: UITableViewCell {
         votesLabel.text = "\(puzzle.votes)"
         
         // Number Answer Label
-        numberAnswersLabel.text = "\(puzzle.usersAnswered)"
+        usersCorrectLabel.text = "\(puzzle.usersCorrect)"
+        
+        // Get Solved
+//        let answeredCorrectly = defaults.boolForKey(puzzle.id + ".answeredCorrectly")
+//        if (answeredCorrectly) {
+//            backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.15)
+//        }
     }
     
     func updateVotesLabel() {
@@ -162,7 +170,8 @@ class PuzzleTableViewCell: UITableViewCell {
         
         // Store userVote
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id)
+        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        defaults.synchronize()
         
         // Update Firebase Data
         updatePuzzleFirebaseData()
@@ -205,7 +214,8 @@ class PuzzleTableViewCell: UITableViewCell {
         
         // Store userVote
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id)
+        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        defaults.synchronize()
         
         // Update Firebase Data
         updatePuzzleFirebaseData()

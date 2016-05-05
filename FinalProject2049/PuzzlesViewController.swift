@@ -101,6 +101,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
+//        puzzlesReference.queryOrderedByChild("votes").observeEventType(   // Gets Errors
         puzzlesReference.observeEventType(
             //        puzzlesReference.queryLimitedToFirst(10).observeEventType(    // Get first 10 items
             .Value,
@@ -116,6 +117,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                     var puzzle: Puzzle? = nil
                     for savedPuzzle in self.savedPuzzles {
                         if (firebaseData["id"] == savedPuzzle.id) {
+//                            self.updateSavedPuzzle(savedPuzzle, withFirebaseData: firebaseData)
                             puzzle = savedPuzzle
                         }
                     }
@@ -145,6 +147,25 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 errorAlertController.addAction(dismissAlertAction)
                 self.presentViewController(errorAlertController, animated: true, completion: nil)
         })
+    }
+    
+    func updateSavedPuzzle(savedPuzzle: Puzzle, withFirebaseData firebaseData: [String : NSObject]) {
+        do {
+            let realm = try Realm()
+            
+            try realm.write({
+                savedPuzzle.votes = Int(String(firebaseData["votes"]!))!
+                savedPuzzle.usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
+            })
+        }
+        catch {
+            print("error updating saved puzzle from realm: \(error)")
+            
+            let errorAlertController = UIAlertController(title: "Error Retreiving Puzzle", message: "\(error)", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            self.presentViewController(errorAlertController, animated: true, completion: nil)
+        }
     }
     
     @IBAction func segmentedControlChanged(sender: UISegmentedControl) {

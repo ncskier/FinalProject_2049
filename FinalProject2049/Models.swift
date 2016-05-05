@@ -21,10 +21,10 @@ class Puzzle: Object {
     
     dynamic var tag : String = ""
     dynamic var votes : Int = 0
-    dynamic var usersAnswered : Int = 0
+    dynamic var usersCorrect : Int = 0
     
     override var description : String {
-        return "id: \(id)\n(\(latitude), \(longitude))\nHorizontal Accuracy: \(horizontalAccuracy)\ntag: \(tag)\nvotes: \(votes)\nusersAnswered: \(usersAnswered)"
+        return "id: \(id)\n(\(latitude), \(longitude))\nHorizontal Accuracy: \(horizontalAccuracy)\ntag: \(tag)\nvotes: \(votes)\nusersCorrect: \(usersCorrect)"
     }
     
     override static func primaryKey() -> String? {
@@ -54,8 +54,9 @@ class Puzzle: Object {
         horizontalAccuracy = Double(firebaseData["horizontalAccuracy"] as! String)!
         
         tag = firebaseData["tag"] as! String
+        
         votes = Int(String(firebaseData["votes"]!))!
-        usersAnswered = Int(String(firebaseData["usersAnswered"]!))!
+        usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
         
     }
     
@@ -70,7 +71,7 @@ class Puzzle: Object {
         dataDictionary["horizontalAccuracy"] = "\(horizontalAccuracy)"
         dataDictionary["tag"] = tag
         dataDictionary["votes"] = "\(votes)"
-        dataDictionary["usersAnswered"] = "\(usersAnswered)"
+        dataDictionary["usersCorrect"] = "\(usersCorrect)"
         
         return dataDictionary
     }

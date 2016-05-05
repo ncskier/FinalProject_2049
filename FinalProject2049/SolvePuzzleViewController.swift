@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import CoreLocation
+import RealmSwift
+import Firebase
 
 class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -18,6 +20,8 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     // Puzzle Elements
     var puzzle : Puzzle!
     var previewPuzzleView : UIImageView!
+    var originalPreviewFrame : CGRect!
+    var previewPuzzleEnlarged = false
     
     // Photo Buttons
     var retakePictureButton : UIButton!
@@ -49,6 +53,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             width: previewLength,
             height: previewLength
         )
+        originalPreviewFrame = previewPuzzleView.frame
         view.addSubview(previewPuzzleView)
         
         setupCameraFunction()
@@ -181,6 +186,46 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
+    func incrementRealmPuzzleUsersCorrectBy() {
+        do {
+            let realm = try Realm()
+            
+            try realm.write({
+                puzzle.usersCorrect += 1
+            })
+        }
+        catch {
+            print("error updating puzzle users correct: \(error)")
+            
+            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+        }
+    }
+    
+    func updatePuzzleFirebasePuzzleUsersCorrect() {
+        let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
+        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
+        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
+        let puzzleUsersCorrectReference = puzzleReference.childByAppendingPath("usersCorrect")
+        puzzleUsersCorrectReference.setValue(puzzle.usersCorrect, withCompletionBlock: {(error, firebaseRef) in
+            
+            if (error != nil) {
+                print("Error updating users correct to firebase: \(error)")
+                
+                // Alert User of error
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .Alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                errorAlertController.addAction(dismissAlertAction)
+                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+            } else {
+                print("Succesfully saved votes to Firebase")
+            }
+        })
+    }
+    
+    
     func cropToSquare(image originalImage: UIImage) -> UIImage {
         // Create a copy of the image without the imageOrientation property so it is in its native orientation (landscape)
         let contextImage: UIImage = UIImage(CGImage: originalImage.CGImage!)
@@ -217,6 +262,63 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }
     
+    // Lay preview puzzle view over camera preview
+    func enlargePreviewPuzzleView() {
+        view.bringSubviewToFront(previewPuzzleView)
+        previewPuzzleEnlarged = true
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(0.15)
+        previewPuzzleView.frame = capturedImageView.frame
+        previewPuzzleView.alpha = 0.85
+        UIView.commitAnimations()
+    }
+    
+    func delargePreviewPuzzleView() {
+        previewPuzzleEnlarged = false
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(0.15)
+        previewPuzzleView.frame = originalPreviewFrame
+        previewPuzzleView.alpha = 1.0
+        UIView.commitAnimations()
+    }
+    
+    // MARK: - Touch Events
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            handlePreviewPuzzleTouch(touch)
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            handlePreviewPuzzleTouch(touch)
+        }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        handlePreviewPuzzleEndTouch()
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        handlePreviewPuzzleEndTouch()
+    }
+    
+    func handlePreviewPuzzleEndTouch() {
+        if (previewPuzzleEnlarged) {
+            delargePreviewPuzzleView()
+        }
+    }
+    
+    func handlePreviewPuzzleTouch(touch: UITouch) {
+        if (!previewPuzzleEnlarged) {       // Only check if preview puzzle is NOT enlarged
+            let location = touch.locationInView(view)
+            if (CGRectContainsPoint(previewPuzzleView.frame, location)) {
+                enlargePreviewPuzzleView()
+            }
+        }
+    }
     
     // MARK: - CLLocationManagerDelegate
     
@@ -279,8 +381,15 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
+    
+    
     // MARK: - Actions
     func capturePhotoButtonTapped() {
+//        // Delarge Preview Puzzle
+//        if (previewPuzzleEnlarged) {
+//            delargePreviewPuzzleView()
+//        }
+        
         // Set up data connection to capture photo
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
             
@@ -321,27 +430,42 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         if (pictureLocation!.horizontalAccuracy > worstAccuracy) {
             worstAccuracy = pictureLocation!.horizontalAccuracy
         }
-        if (pictureLocation!.distanceFromLocation(puzzleLocation) < worstAccuracy) {
+        if (pictureLocation!.distanceFromLocation(puzzleLocation) < worstAccuracy) {    // Puzzle Solved
             solvedLabel.hidden = false
             incorrectLabel.hidden = true
-        } else {
+            
+            // Update User Defaults
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setBool(true, forKey: puzzle.id + ".answeredCorrectly")
+            defaults.synchronize()
+            
+            // Update Users Correct
+            incrementRealmPuzzleUsersCorrectBy()
+            updatePuzzleFirebasePuzzleUsersCorrect()
+            
+            // Dismiss View (Go Back to Detail View)
+            dismissViewControllerAnimated(true, completion: nil)
+            
+        } else {    // Puzzle Incorrect
             incorrectLabel.hidden = false
             solvedLabel.hidden = true
+            
+            
         }
         
         // Show Accuracy - DEBUGGING
-        let locationAlertController = UIAlertController(
-            title: "Location Information",
-            message: "Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))m\nPuzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)m\nSolution Horozontal Accuracy: \(pictureLocation!.horizontalAccuracy)m",
-            preferredStyle: .Alert
-        )
-        let dismissAlertAction = UIAlertAction(
-            title: "Dismiss",
-            style: .Default,
-            handler: nil
-        )
-        locationAlertController.addAction(dismissAlertAction)
-        presentViewController(locationAlertController, animated: true, completion: nil)
+//        let locationAlertController = UIAlertController(
+//            title: "Location Information",
+//            message: "Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))m\nPuzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)m\nSolution Horozontal Accuracy: \(pictureLocation!.horizontalAccuracy)m",
+//            preferredStyle: .Alert
+//        )
+//        let dismissAlertAction = UIAlertAction(
+//            title: "Dismiss",
+//            style: .Default,
+//            handler: nil
+//        )
+//        locationAlertController.addAction(dismissAlertAction)
+//        presentViewController(locationAlertController, animated: true, completion: nil)
         
         print("Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))")
         print("Puzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)")
