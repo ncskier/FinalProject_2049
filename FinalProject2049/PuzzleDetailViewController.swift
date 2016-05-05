@@ -13,7 +13,7 @@ import Firebase
 class PuzzleDetailViewController: UIViewController {
     
     @IBOutlet weak var solveButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
+//    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var puzzleImageView: UIImageView!
     @IBOutlet weak var solvedLabel: UILabel!
     
@@ -34,10 +34,10 @@ class PuzzleDetailViewController: UIViewController {
             
             // Puzzle Saved
             let defaults = NSUserDefaults.standardUserDefaults()
-            let puzzleSaved = defaults.boolForKey(puzzle.id + ".saved")
-            if (puzzleSaved) {
-                saveButton.enabled = false
-            }
+//            let puzzleSaved = defaults.boolForKey(puzzle.id + ".saved")
+//            if (puzzleSaved) {
+//                saveButton.enabled = false
+//            }
             
             // Get user vote
             userVote = defaults.integerForKey(puzzle.id + ".userVote")
@@ -101,56 +101,56 @@ class PuzzleDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func saveButtonTapped(sender: UIButton) {
-        
-        print("title text: \(saveButton.titleLabel!.text)")
-        
-        print("Saved")
-        
-        // Save Puzzle
-        do {
-            let realm = try Realm()
-            
-            try realm.write({
-                realm.add(puzzle)
-            })
-        }
-        catch {
-            print("Error saving puzzle: \(error)")
-            
-            let errorAlertController = UIAlertController(title: "Error Saving Puzzle", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
-        }
-        
-        // Set Puzzle Saved to defaults
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(true, forKey: puzzle.id + ".saved")
-        defaults.synchronize()
-        
-        // Change Save Button
-        saveButton.enabled = false
-        
-//        print("Remove")
+//    @IBAction func saveButtonTapped(sender: UIButton) {
 //        
-//        // Remove Puzzle
+////        print("title text: \(saveButton.titleLabel!.text)")
+//        
+//        print("Saved")
+//        
+//        // Save Puzzle
 //        do {
 //            let realm = try Realm()
 //            
 //            try realm.write({
-//                realm.delete(puzzle)
+//                realm.add(puzzle)
 //            })
 //        }
 //        catch {
-//            print("error deleting puzzle: \(error)")
+//            print("Error saving puzzle: \(error)")
 //            
-//            let errorAlertController = UIAlertController(title: "Error Removing Puzzle", message: "\(error)", preferredStyle: .Alert)
+//            let errorAlertController = UIAlertController(title: "Error Saving Puzzle", message: "\(error)", preferredStyle: .Alert)
 //            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
 //            errorAlertController.addAction(dismissAlertAction)
 //            presentViewController(errorAlertController, animated: true, completion: nil)
 //        }
-    }
+//        
+//        // Set Puzzle Saved to defaults
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        defaults.setBool(true, forKey: puzzle.id + ".saved")
+//        defaults.synchronize()
+//        
+//        // Change Save Button
+////        saveButton.enabled = false
+//        
+////        print("Remove")
+////        
+////        // Remove Puzzle
+////        do {
+////            let realm = try Realm()
+////            
+////            try realm.write({
+////                realm.delete(puzzle)
+////            })
+////        }
+////        catch {
+////            print("error deleting puzzle: \(error)")
+////            
+////            let errorAlertController = UIAlertController(title: "Error Removing Puzzle", message: "\(error)", preferredStyle: .Alert)
+////            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+////            errorAlertController.addAction(dismissAlertAction)
+////            presentViewController(errorAlertController, animated: true, completion: nil)
+////        }
+//    }
     
     @IBAction func upVoteButtonTapped(sender: UIButton) {
         if (userVote == 1) {    // Up Vote (Toggle)

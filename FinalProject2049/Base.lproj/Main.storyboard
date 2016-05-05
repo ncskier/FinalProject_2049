@@ -28,8 +28,8 @@
                                             <rect key="frame" x="239" y="7" width="121" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="Saved"/>
-                                                <segment title="All"/>
+                                                <segment title="New"/>
+                                                <segment title="Top"/>
                                             </segments>
                                             <connections>
                                                 <action selector="segmentedControlChanged:" destination="BES-Kl-euD" eventType="valueChanged" id="V6x-4l-S2P"/>
@@ -173,14 +173,6 @@
                                     <segue destination="Nv7-M4-0f0" kind="presentation" identifier="solvePuzzleSegue" id="L9l-aa-X8o"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcb-0G-8yV">
-                                <rect key="frame" x="20" y="86" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                                <state key="selected" title="Saved"/>
-                                <connections>
-                                    <action selector="saveButtonTapped:" destination="PgL-1J-fdg" eventType="touchUpInside" id="wbO-QK-Kja"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="45G-Zo-M0p">
                                 <rect key="frame" x="550" y="111" width="30" height="18"/>
                                 <constraints>
@@ -240,7 +232,6 @@
                             <constraint firstItem="eGC-2v-r1K" firstAttribute="centerX" secondItem="O9j-6O-M59" secondAttribute="centerX" id="0Jg-N7-49X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8n5-KP-z6d" secondAttribute="trailing" constant="-20" id="1QN-H0-9cB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8n5-KP-z6d" secondAttribute="trailing" constant="80" id="60j-ep-wDj"/>
-                            <constraint firstItem="hDd-jt-vBt" firstAttribute="centerY" secondItem="hcb-0G-8yV" secondAttribute="centerY" id="8P7-Hu-D5g"/>
                             <constraint firstItem="UA5-il-SNU" firstAttribute="centerY" secondItem="hDd-jt-vBt" secondAttribute="centerY" id="F3x-T4-l5m"/>
                             <constraint firstItem="WId-gF-cLg" firstAttribute="top" secondItem="sQg-fI-Juj" secondAttribute="bottom" constant="8" id="FKP-Hn-aIP"/>
                             <constraint firstItem="eGC-2v-r1K" firstAttribute="centerY" secondItem="KTH-5K-a1t" secondAttribute="centerY" id="IJ4-yP-uOh"/>
@@ -249,7 +240,6 @@
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="leading" secondItem="O9j-6O-M59" secondAttribute="leadingMargin" constant="80" id="THK-NE-ZoJ"/>
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="top" secondItem="sQg-fI-Juj" secondAttribute="bottom" constant="73" id="TIL-PB-mzQ"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="centerX" secondItem="WId-gF-cLg" secondAttribute="centerX" id="UaQ-Q6-Rz8"/>
-                            <constraint firstItem="hcb-0G-8yV" firstAttribute="leading" secondItem="O9j-6O-M59" secondAttribute="leadingMargin" id="c0l-Ia-LfR"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="centerY" secondItem="hDd-jt-vBt" secondAttribute="centerY" id="cWB-AQ-m1c"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="top" secondItem="WId-gF-cLg" secondAttribute="bottom" id="gik-hs-FKY"/>
                             <constraint firstItem="KTH-5K-a1t" firstAttribute="centerX" secondItem="O9j-6O-M59" secondAttribute="centerX" id="grM-UZ-HKR"/>
@@ -269,7 +259,6 @@
                     <connections>
                         <outlet property="downVoteButton" destination="45G-Zo-M0p" id="HAo-AK-NSA"/>
                         <outlet property="puzzleImageView" destination="8n5-KP-z6d" id="ZRr-1N-gPp"/>
-                        <outlet property="saveButton" destination="hcb-0G-8yV" id="eNI-xW-sAT"/>
                         <outlet property="solveButton" destination="eGC-2v-r1K" id="3HP-Sm-AHV"/>
                         <outlet property="solvedLabel" destination="KTH-5K-a1t" id="k3C-mx-OGr"/>
                         <outlet property="upVoteButton" destination="WId-gF-cLg" id="UO6-fX-EVI"/>

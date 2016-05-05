@@ -8,54 +8,59 @@
 
 import UIKit
 import Firebase
-import RealmSwift
+//import RealmSwift
 
 class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var segmentedControlView: UISegmentedControl!
     @IBOutlet weak var puzzlesTableView: UITableView!
     
-    var token : NotificationToken?
-    var savedPuzzles : Results<Puzzle>!
+//    var token : NotificationToken?
+//    var savedPuzzles : Results<Puzzle>!
     var allPuzzles = [Puzzle]()
+    var topPuzzles = [Puzzle]()
+    var newPuzzles = [Puzzle]()
     var refreshControl = UIRefreshControl()
     var loadingFirebasePuzzles = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Segmented View
-        
-        
         // Table View
         puzzlesTableView.delegate = self
         puzzlesTableView.dataSource = self
         
-        // Load Saved Puzzles
-        do {
-            let realm = try Realm()
-            token = realm.addNotificationBlock({ (notification, realm) -> Void in
-                self.puzzlesTableView.reloadData()
-            })
-            
-            savedPuzzles = realm.objects(Puzzle)
-            
-        } catch {
-            print("Error loading saved puzzles: \(error)")
-            
-            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
-        }
+        // Segmented Control
+        segmentedControlView.enabled = false
+        
+//        // Load Saved Puzzles
+//        do {
+//            let realm = try Realm()
+//            token = realm.addNotificationBlock({ (notification, realm) -> Void in
+//                self.puzzlesTableView.reloadData()
+//            })
+//            
+//            savedPuzzles = realm.objects(Puzzle)
+//            
+//        } catch {
+//            print("Error loading saved puzzles: \(error)")
+//            
+//            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
+//            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+//            errorAlertController.addAction(dismissAlertAction)
+//            presentViewController(errorAlertController, animated: true, completion: nil)
+//        }
         
         // Load Firebase data
-        loadFirebasePuzzles()
+//        loadFirebasePuzzles()
         
         // Refresh Control
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refreshControlPulled), forControlEvents: .ValueChanged)
         puzzlesTableView.addSubview(refreshControl)
+        
+        refreshControl.beginRefreshing()
+        refreshControlPulled()
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -70,6 +75,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (puzzlesTableView.indexPathForSelectedRow != nil) {
             puzzlesTableView.deselectRowAtIndexPath(puzzlesTableView.indexPathForSelectedRow!, animated: true)
         }
+        
+        // Update table
+        puzzlesTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,18 +89,12 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Change title
         refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
         
-        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
-            // Load Realm data
-            puzzlesTableView.reloadData()
-            refreshControl.endRefreshing()
-            
-        } else {    // Firebase Puzzles
-            // Load firebase data
-            loadFirebasePuzzles()
-        }
+        loadFirebasePuzzles()
     }
     
     func loadFirebasePuzzles() {
+        print("load Firebase puzzles")
+        
         // Update status
         loadingFirebasePuzzles = true
         
@@ -112,21 +114,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 for snapshotChild in snapshot.children {
                     var firebaseData = (snapshotChild as! FDataSnapshot).value as! [String : NSObject]
                     firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
-                    
-                    // Check if puzzle is already saved
-                    var puzzle: Puzzle? = nil
-                    for savedPuzzle in self.savedPuzzles {
-                        if (firebaseData["id"] == savedPuzzle.id) {
-//                            self.updateSavedPuzzle(savedPuzzle, withFirebaseData: firebaseData)
-                            puzzle = savedPuzzle
-                        }
-                    }
-                    
-                    if (puzzle == nil) {
-                        puzzle = Puzzle(fromFirebaseData: firebaseData)
-                    }
-                    
-                    self.allPuzzles.append(puzzle!)
+                    self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
                 }
                 
                 // Reload Table
@@ -149,24 +137,24 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         })
     }
     
-    func updateSavedPuzzle(savedPuzzle: Puzzle, withFirebaseData firebaseData: [String : NSObject]) {
-        do {
-            let realm = try Realm()
-            
-            try realm.write({
-                savedPuzzle.votes = Int(String(firebaseData["votes"]!))!
-                savedPuzzle.usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
-            })
-        }
-        catch {
-            print("error updating saved puzzle from realm: \(error)")
-            
-            let errorAlertController = UIAlertController(title: "Error Retreiving Puzzle", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            self.presentViewController(errorAlertController, animated: true, completion: nil)
-        }
-    }
+//    func updateSavedPuzzle(savedPuzzle: Puzzle, withFirebaseData firebaseData: [String : NSObject]) {
+//        do {
+//            let realm = try Realm()
+//            
+//            try realm.write({
+//                savedPuzzle.votes = Int(String(firebaseData["votes"]!))!
+//                savedPuzzle.usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
+//            })
+//        }
+//        catch {
+//            print("error updating saved puzzle from realm: \(error)")
+//            
+//            let errorAlertController = UIAlertController(title: "Error Retreiving Puzzle", message: "\(error)", preferredStyle: .Alert)
+//            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+//            errorAlertController.addAction(dismissAlertAction)
+//            self.presentViewController(errorAlertController, animated: true, completion: nil)
+//        }
+//    }
     
     @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
         
@@ -176,9 +164,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Scroll to first cell
         var canScroll = true
         if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
-            if (savedPuzzles.count == 0) {
-                canScroll = false
-            }
+//            if (savedPuzzles.count == 0) {
+//                canScroll = false
+//            }
             
             // Update Refreshing
             if (refreshControl.refreshing) {
@@ -212,29 +200,17 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
-            return savedPuzzles.count
-        } else {    // All Puzzles
-            return allPuzzles.count
-        }
+        return allPuzzles.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("puzzleCell", forIndexPath: indexPath) as! PuzzleTableViewCell
         
-        // Configure the cell...
-        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
-            cell.puzzle = savedPuzzles[indexPath.row]
-        } else {    // All Puzzles
-            cell.puzzle = allPuzzles[indexPath.row]
-        }
+        cell.puzzle = allPuzzles[indexPath.row]
+        cell.updateUI()
         
         return cell
     }
-    
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return view.frame.width/4.0
-//    }
     
     /*
     // Override to support conditional editing of the table view.

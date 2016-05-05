@@ -20,11 +20,7 @@ class PuzzleTableViewCell: UITableViewCell {
     let detailImageView = UIImageView()
     var userVote : Int!
     
-    var puzzle : Puzzle! {
-        didSet(newValue) {
-            updateUI()
-        }
-    }
+    var puzzle : Puzzle!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +37,8 @@ class PuzzleTableViewCell: UITableViewCell {
     }
     
     func updateUI() {
+        print("update UI")
+        
         let image = UIImage(data: puzzle.pictureData)
         detailImageView.frame = CGRect(x: 0, y: 0, width: frame.width/2.0, height: frame.width/2.0)
         detailImageView.center = CGPoint(x: frame.width/4.0, y: frame.height/2.0)
@@ -65,6 +63,10 @@ class PuzzleTableViewCell: UITableViewCell {
         
         // Number Answer Label
         usersCorrectLabel.text = "\(puzzle.usersCorrect)"
+        
+        // Update Votes Info
+        updateVoteButtons()
+        updateVotesLabel()
         
         // Get Solved
 //        let answeredCorrectly = defaults.boolForKey(puzzle.id + ".answeredCorrectly")
