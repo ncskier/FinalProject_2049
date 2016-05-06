@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 //import RealmSwift
 
-class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     @IBOutlet weak var segmentedControlView: UISegmentedControl!
     @IBOutlet weak var puzzlesTableView: UITableView!
@@ -18,10 +19,12 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
 //    var token : NotificationToken?
 //    var savedPuzzles : Results<Puzzle>!
     var allPuzzles = [Puzzle]()
-    var topPuzzles = [Puzzle]()
-    var newPuzzles = [Puzzle]()
     var refreshControl = UIRefreshControl()
     var loadingFirebasePuzzles = false
+    var loadedFirebasePuzzles = false
+    
+    var locationManager : CLLocationManager!
+    let deltaLocation : Double = 0.25            // +/- degrees for lat/lon of location
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +32,6 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Table View
         puzzlesTableView.delegate = self
         puzzlesTableView.dataSource = self
-        
-        // Segmented Control
-        segmentedControlView.enabled = false
         
 //        // Load Saved Puzzles
 //        do {
@@ -51,6 +51,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
 //            presentViewController(errorAlertController, animated: true, completion: nil)
 //        }
         
+        // Get current location
+        setupLocationServices()
+        
         // Load Firebase data
 //        loadFirebasePuzzles()
         
@@ -61,7 +64,6 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         refreshControl.beginRefreshing()
         refreshControlPulled()
-        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -85,6 +87,54 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    func setupLocationServices() {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if (authorizationStatus == .Restricted) {
+            
+            // Show Error Alert
+            let errorAlertController = UIAlertController(
+                title: "Location Authorization Restricted",
+                message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
+                preferredStyle: .Alert
+            )
+            let dismissAlertAction = UIAlertAction(
+                title: "Dismiss",
+                style: .Default,
+                handler: nil
+            )
+            errorAlertController.addAction(dismissAlertAction)
+            
+        } else if (authorizationStatus == .Denied) {
+            
+            // Show Error Alert
+            let errorAlertController = UIAlertController(
+                title: "Location Authorisation Denied",
+                message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
+                preferredStyle: .Alert
+            )
+            let dismissAlertAction = UIAlertAction(
+                title: "Dismiss",
+                style: .Default,
+                handler: nil
+            )
+            errorAlertController.addAction(dismissAlertAction)
+            
+        } else {
+            
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.distanceFilter = 2000
+            locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+            locationManager.startUpdatingLocation()
+            
+            if (authorizationStatus == .NotDetermined) {
+                locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
+            } else {
+                locationManager!.startUpdatingLocation()
+            }
+        }
+    }
+    
     func refreshControlPulled() {
         // Change title
         refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
@@ -92,19 +142,45 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         loadFirebasePuzzles()
     }
     
+    /* Use user's location when loading puzzles (query lat/lon in a +/- range from user lat/lon) */
     func loadFirebasePuzzles() {
         print("load Firebase puzzles")
         
         // Update status
         loadingFirebasePuzzles = true
         
+        // Get current location
+        let location = locationManager.location
+        
+        if (location == nil) {
+            /* error */
+            print("ERROR: Could not retreive location")
+            
+            // Alert User of error
+            let errorAlertController = UIAlertController(title: "Error Reading Location", message: "There was an error trying to get your location.", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            self.presentViewController(errorAlertController, animated: true, completion: nil)
+        }
+        
+        let minLatitude = location!.coordinate.latitude - deltaLocation
+        let maxLatitude = location!.coordinate.latitude + deltaLocation
+        let minLongitude = location!.coordinate.longitude - deltaLocation
+        let maxLongitude = location!.coordinate.longitude + deltaLocation
+        
+        print("minLat: \(minLatitude)")
+        print("maxLat: \(maxLatitude)")
+        print("minLon: \(minLongitude)")
+        print("maxLon: \(maxLongitude)")
+        
         // Firebase
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
         let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
-//        puzzlesReference.queryOrderedByChild("votes").observeEventType(   // Gets Errors
-        puzzlesReference.observeEventType(
+//        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(location!.coordinate.latitude-deltaLocation).queryEndingAtValue(location!.coordinate.latitude+deltaLocation).queryOrderedByChild("longitude").queryStartingAtValue(location!.coordinate.longitude-deltaLocation).queryEndingAtValue(location!.coordinate.longitude+deltaLocation).observeEventType(
+        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(minLatitude).observeEventType(
+//        puzzlesReference.observeEventType(
             //        puzzlesReference.queryLimitedToFirst(10).observeEventType(    // Get first 10 items
             .Value,
             withBlock: {(snapshot) in
@@ -117,6 +193,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
                 }
                 
+                // Sort Puzzles
+                self.sortPuzzles()
+                
                 // Reload Table
                 self.puzzlesTableView.reloadData()
                 
@@ -124,6 +203,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.refreshControl.endRefreshing()
                 self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
                 self.loadingFirebasePuzzles = false
+                self.loadedFirebasePuzzles = true
                 
             }, withCancelBlock: {(error) in
                 
@@ -135,6 +215,17 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 errorAlertController.addAction(dismissAlertAction)
                 self.presentViewController(errorAlertController, animated: true, completion: nil)
         })
+    }
+    
+    func sortPuzzles() {
+        if (segmentedControlView.selectedSegmentIndex == 0) {
+            // Sort By Timestamp Descending (id)
+            self.allPuzzles.sortInPlace({ $0.id > $1.id })
+        } else if (segmentedControlView.selectedSegmentIndex == 1) {
+            // Sort By Votes Descending
+            self.allPuzzles.sortInPlace({ $0.votes > $1.votes })
+        }
+        
     }
     
 //    func updateSavedPuzzle(savedPuzzle: Puzzle, withFirebaseData firebaseData: [String : NSObject]) {
@@ -158,39 +249,77 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
         
-        // Refresh Data
+        // Sort Puzzles
+        sortPuzzles()
+        
+        // Refresh Table
         puzzlesTableView.reloadData()
         
         // Scroll to first cell
-        var canScroll = true
-        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
-//            if (savedPuzzles.count == 0) {
+//        var canScroll = true
+//        if (segmentedControlView.selectedSegmentIndex == 0) {   // Saved Puzzles
+////            if (savedPuzzles.count == 0) {
+////                canScroll = false
+////            }
+//            
+//            // Update Refreshing
+//            if (refreshControl.refreshing) {
+//                refreshControl.endRefreshing()
+//            }
+//            
+//        } else {    // All Puzzles
+//            if (allPuzzles.count == 0) {
 //                canScroll = false
 //            }
-            
-            // Update Refreshing
-            if (refreshControl.refreshing) {
-                refreshControl.endRefreshing()
-            }
-            
-        } else {    // All Puzzles
-            if (allPuzzles.count == 0) {
-                canScroll = false
-            }
-            
-            // Update Refreshing
-            if (refreshControl.refreshing) {
-                refreshControl.endRefreshing()
-            }
-            if (loadingFirebasePuzzles) {
-                refreshControl.beginRefreshing()
-            }
-        }
+//            
+//            // Update Refreshing
+//            if (refreshControl.refreshing) {
+//                refreshControl.endRefreshing()
+//            }
+//            if (loadingFirebasePuzzles) {
+//                refreshControl.beginRefreshing()
+//            }
+//        }
+//        
+//        if (canScroll) {
+//            puzzlesTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+//        }
         
-        if (canScroll) {
-            puzzlesTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+    }
+    
+    // MARK: - CLLocation Manager Delegate Methods
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("didUpdateLocation")
+        if (!loadedFirebasePuzzles && !loadingFirebasePuzzles) {
+            loadFirebasePuzzles()
         }
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
+        print("Error: \(error.description)")
+        
+        // Show Error Alert
+        let errorAlertController = UIAlertController(
+            title: "Location Services Error",
+            message: "\(error.description)",
+            preferredStyle: .Alert
+        )
+        let dismissAlertAction = UIAlertAction(
+            title: "Dismiss",
+            style: .Default,
+            handler: nil
+        )
+        errorAlertController.addAction(dismissAlertAction)
+        
+        presentViewController(errorAlertController, animated: true, completion: nil)
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        if (status == .AuthorizedWhenInUse) {
+            locationManager!.startUpdatingLocation()
+        }
     }
 
     // MARK: - Table view data source
