@@ -49,9 +49,9 @@ class Puzzle: Object {
         
         pictureData = NSData(base64EncodedString: firebaseData["pictureData"] as! String, options: [])
         
-        longitude = Double(firebaseData["longitude"] as! String)!
-        latitude = Double(firebaseData["latitude"] as! String)!
-        horizontalAccuracy = Double(firebaseData["horizontalAccuracy"] as! String)!
+        longitude = firebaseData["longitude"] as! Double
+        latitude = firebaseData["latitude"] as! Double
+        horizontalAccuracy = firebaseData["horizontalAccuracy"] as! Double
         
         tag = firebaseData["tag"] as! String
         
@@ -60,18 +60,18 @@ class Puzzle: Object {
         
     }
     
-    func convertToFirebaseData() -> [String : String] {
-        var dataDictionary = [String : String]()
+    func convertToFirebaseData() -> [String : NSObject] {
+        var dataDictionary = [String : NSObject]()
         
         
         dataDictionary["pictureData"] = "\(pictureData.base64EncodedStringWithOptions([]))"
         
-        dataDictionary["longitude"] = "\(longitude)"
-        dataDictionary["latitude"] = "\(latitude)"
-        dataDictionary["horizontalAccuracy"] = "\(horizontalAccuracy)"
+        dataDictionary["longitude"] = longitude
+        dataDictionary["latitude"] = latitude
+        dataDictionary["horizontalAccuracy"] = horizontalAccuracy
         dataDictionary["tag"] = tag
-        dataDictionary["votes"] = "\(votes)"
-        dataDictionary["usersCorrect"] = "\(usersCorrect)"
+        dataDictionary["votes"] = votes
+        dataDictionary["usersCorrect"] = usersCorrect
         
         return dataDictionary
     }

@@ -37,7 +37,7 @@ class PuzzleTableViewCell: UITableViewCell {
     }
     
     func updateUI() {
-        print("update UI")
+        print("update UI \(puzzle.id)")
         
         let image = UIImage(data: puzzle.pictureData)
         detailImageView.frame = CGRect(x: 0, y: 0, width: frame.width/2.0, height: frame.width/2.0)

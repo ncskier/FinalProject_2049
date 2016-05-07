@@ -25,6 +25,8 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var locationManager : CLLocationManager!
     let deltaLocation : Double = 0.25            // +/- degrees for lat/lon of location
+    var minLatitude : Double!
+    var maxLatitude : Double!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,7 +141,15 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Change title
         refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
         
-        loadFirebasePuzzles()
+        loadedFirebasePuzzles = false
+        
+        if (CLLocationManager.authorizationStatus() == .NotDetermined) {
+            locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
+        } else {
+            locationManager!.startUpdatingLocation()
+        }
+        
+        //        loadFirebasePuzzles()
     }
     
     /* Use user's location when loading puzzles (query lat/lon in a +/- range from user lat/lon) */
@@ -151,6 +161,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Get current location
         let location = locationManager.location
+        locationManager.stopUpdatingLocation()
         
         if (location == nil) {
             /* error */
@@ -163,8 +174,8 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.presentViewController(errorAlertController, animated: true, completion: nil)
         }
         
-        let minLatitude = location!.coordinate.latitude - deltaLocation
-        let maxLatitude = location!.coordinate.latitude + deltaLocation
+        minLatitude = location!.coordinate.latitude - deltaLocation
+        maxLatitude = location!.coordinate.latitude + deltaLocation
         let minLongitude = location!.coordinate.longitude - deltaLocation
         let maxLongitude = location!.coordinate.longitude + deltaLocation
         
@@ -178,10 +189,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
-//        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(location!.coordinate.latitude-deltaLocation).queryEndingAtValue(location!.coordinate.latitude+deltaLocation).queryOrderedByChild("longitude").queryStartingAtValue(location!.coordinate.longitude-deltaLocation).queryEndingAtValue(location!.coordinate.longitude+deltaLocation).observeEventType(
-        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(minLatitude).observeEventType(
-//        puzzlesReference.observeEventType(
-            //        puzzlesReference.queryLimitedToFirst(10).observeEventType(    // Get first 10 items
+        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(minLongitude).queryEndingAtValue(maxLongitude).observeEventType(
             .Value,
             withBlock: {(snapshot) in
                 
@@ -189,8 +197,13 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 for snapshotChild in snapshot.children {
                     var firebaseData = (snapshotChild as! FDataSnapshot).value as! [String : NSObject]
-                    firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
-                    self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
+                    
+                    // Filter Latitude
+                    let latitude = firebaseData["latitude"] as! Double
+                    if (self.minLatitude < latitude && latitude < self.maxLatitude) {
+                        firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
+                        self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
+                    }
                 }
                 
                 // Sort Puzzles
@@ -320,6 +333,14 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (status == .AuthorizedWhenInUse) {
             locationManager!.startUpdatingLocation()
         }
+    }
+    
+    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+        print("location manager PAUSED")
+    }
+    
+    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+        print("location manager RESUMED")
     }
 
     // MARK: - Table view data source
