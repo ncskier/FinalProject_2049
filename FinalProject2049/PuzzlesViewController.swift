@@ -9,15 +9,15 @@
 import UIKit
 import Firebase
 import CoreLocation
-//import RealmSwift
+import RealmSwift
 
 class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     @IBOutlet weak var segmentedControlView: UISegmentedControl!
     @IBOutlet weak var puzzlesTableView: UITableView!
     
-//    var token : NotificationToken?
-//    var savedPuzzles : Results<Puzzle>!
+    var token : NotificationToken?
+    var savedPuzzles : Results<Puzzle>!
     var allPuzzles = [Puzzle]()
     var refreshControl = UIRefreshControl()
     var loadingFirebasePuzzles = false
@@ -189,7 +189,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
         
         // Attach a closure to read the data at our posts reference
-        puzzlesReference.queryOrderedByChild("latitude").queryStartingAtValue(minLongitude).queryEndingAtValue(maxLongitude).observeEventType(
+        puzzlesReference.queryOrderedByChild("longitude").queryStartingAtValue(minLongitude).queryEndingAtValue(maxLongitude).observeEventType(
             .Value,
             withBlock: {(snapshot) in
                 

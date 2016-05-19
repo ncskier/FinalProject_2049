@@ -17,6 +17,7 @@ class PuzzleTableViewCell: UITableViewCell {
     @IBOutlet weak var votesLabel: UILabel!
     @IBOutlet weak var usersCorrectLabel: UILabel!      // SOLVED
     
+    var solvedImageView = UIImageView()
     let detailImageView = UIImageView()
     var userVote : Int!
     
@@ -28,6 +29,9 @@ class PuzzleTableViewCell: UITableViewCell {
         
         // Add Detail Image View
         addSubview(detailImageView)
+        
+        // Add Solved Image View
+        addSubview(solvedImageView)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -68,11 +72,22 @@ class PuzzleTableViewCell: UITableViewCell {
         updateVoteButtons()
         updateVotesLabel()
         
+        // Solved Image
+        solvedImageView.image = UIImage(named: "green_checkmark")
+        let length = self.frame.height - 35
+        solvedImageView.frame = CGRect(x: 0, y: 0, width: length, height: length)
+        solvedImageView.center = detailImageView.center
+        solvedImageView.hidden = true
+        solvedImageView.alpha = 0.75
+        bringSubviewToFront(solvedImageView)
+        
         // Get Solved
-//        let answeredCorrectly = defaults.boolForKey(puzzle.id + ".answeredCorrectly")
-//        if (answeredCorrectly) {
-//            backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.15)
-//        }
+        let solved = defaults.boolForKey(puzzle.id + ".solved")
+        if (solved) {
+            print("\t \(puzzle.id) solved")
+            bringSubviewToFront(solvedImageView)
+            solvedImageView.hidden = false
+        }
     }
     
     func updateVotesLabel() {

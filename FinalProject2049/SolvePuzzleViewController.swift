@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreLocation
-import RealmSwift
+//import RealmSwift
 import Firebase
 
 class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
@@ -186,23 +186,23 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    func incrementRealmPuzzleUsersCorrectBy() {
-        do {
-            let realm = try Realm()
-            
-            try realm.write({
-                puzzle.usersCorrect += 1
-            })
-        }
-        catch {
-            print("error updating puzzle users correct: \(error)")
-            
-            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-            errorAlertController.addAction(dismissAlertAction)
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
-        }
-    }
+//    func incrementRealmPuzzleUsersCorrectBy() {
+//        do {
+//            let realm = try Realm()
+//            
+//            try realm.write({
+//                puzzle.usersCorrect += 1
+//            })
+//        }
+//        catch {
+//            print("error updating puzzle users correct: \(error)")
+//            
+//            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .Alert)
+//            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+//            errorAlertController.addAction(dismissAlertAction)
+//            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+//        }
+//    }
     
     func updatePuzzleFirebasePuzzleUsersCorrect() {
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
@@ -436,11 +436,12 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             
             // Update User Defaults
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setBool(true, forKey: puzzle.id + ".answeredCorrectly")
+            defaults.setBool(true, forKey: puzzle.id + ".solved")
             defaults.synchronize()
             
             // Update Users Correct
-            incrementRealmPuzzleUsersCorrectBy()
+//            incrementRealmPuzzleUsersCorrectBy()
+            puzzle.usersCorrect += 1
             updatePuzzleFirebasePuzzleUsersCorrect()
             
             // Dismiss View (Go Back to Detail View)

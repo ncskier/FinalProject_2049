@@ -84,9 +84,9 @@ class PuzzleDetailViewController: UIViewController {
     func updateSolveButton() {
         // Retreive if user has answered Puzzle
         let defaults = NSUserDefaults.standardUserDefaults()
-        let answeredCorrectly = defaults.boolForKey(puzzle.id + ".answeredCorrectly")
+        let solved = defaults.boolForKey(puzzle.id + ".solved")
         
-        if (answeredCorrectly) {
+        if (solved) {
             // Deactivate and Hide Solve Button
             solveButton.enabled = false
             solveButton.hidden = true
