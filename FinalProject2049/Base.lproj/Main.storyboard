@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Utp-Qh-ymq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Utp-Qh-ymq">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -25,9 +25,10 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="GKu-eB-vfE"/>
                                     <barButtonItem style="plain" id="ZsI-nQ-vGm">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Txo-Sk-mqv">
-                                            <rect key="frame" x="239" y="7" width="121" height="30"/>
+                                            <rect key="frame" x="204" y="6.5" width="192" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
+                                                <segment title="Saved"/>
                                                 <segment title="New"/>
                                                 <segment title="Top"/>
                                             </segments>
@@ -221,11 +222,28 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Solved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KTH-5K-a1t">
-                                <rect key="frame" x="263.5" y="513.5" width="73" height="29"/>
+                                <rect key="frame" x="263" y="513" width="73" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="0.23921568630000001" green="0.84705882349999995" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQE-TH-Sdy">
+                                <rect key="frame" x="20" y="86" width="34" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="M6n-jc-HYU"/>
+                                    <constraint firstAttribute="width" constant="83" id="ibe-Fr-DUz"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="M6n-jc-HYU"/>
+                                        <exclude reference="ibe-Fr-DUz"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="PgL-1J-fdg" eventType="touchUpInside" id="uEK-uq-7CX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -240,7 +258,9 @@
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="leading" secondItem="O9j-6O-M59" secondAttribute="leadingMargin" constant="80" id="THK-NE-ZoJ"/>
                             <constraint firstItem="8n5-KP-z6d" firstAttribute="top" secondItem="sQg-fI-Juj" secondAttribute="bottom" constant="73" id="TIL-PB-mzQ"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="centerX" secondItem="WId-gF-cLg" secondAttribute="centerX" id="UaQ-Q6-Rz8"/>
+                            <constraint firstItem="fQE-TH-Sdy" firstAttribute="leading" secondItem="O9j-6O-M59" secondAttribute="leadingMargin" id="ZAL-3u-uKi"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="centerY" secondItem="hDd-jt-vBt" secondAttribute="centerY" id="cWB-AQ-m1c"/>
+                            <constraint firstItem="hDd-jt-vBt" firstAttribute="centerY" secondItem="fQE-TH-Sdy" secondAttribute="centerY" id="fP0-fe-vq9"/>
                             <constraint firstItem="qJ0-UZ-4H3" firstAttribute="top" secondItem="WId-gF-cLg" secondAttribute="bottom" id="gik-hs-FKY"/>
                             <constraint firstItem="KTH-5K-a1t" firstAttribute="centerX" secondItem="O9j-6O-M59" secondAttribute="centerX" id="grM-UZ-HKR"/>
                             <constraint firstItem="WId-gF-cLg" firstAttribute="trailing" secondItem="O9j-6O-M59" secondAttribute="trailingMargin" id="or5-30-IOD"/>
@@ -259,6 +279,7 @@
                     <connections>
                         <outlet property="downVoteButton" destination="45G-Zo-M0p" id="HAo-AK-NSA"/>
                         <outlet property="puzzleImageView" destination="8n5-KP-z6d" id="ZRr-1N-gPp"/>
+                        <outlet property="saveButton" destination="fQE-TH-Sdy" id="W6G-YF-Ahf"/>
                         <outlet property="solveButton" destination="eGC-2v-r1K" id="3HP-Sm-AHV"/>
                         <outlet property="solvedLabel" destination="KTH-5K-a1t" id="k3C-mx-OGr"/>
                         <outlet property="upVoteButton" destination="WId-gF-cLg" id="UO6-fX-EVI"/>

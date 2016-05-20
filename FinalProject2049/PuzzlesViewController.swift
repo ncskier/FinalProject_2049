@@ -35,23 +35,23 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         puzzlesTableView.delegate = self
         puzzlesTableView.dataSource = self
         
-//        // Load Saved Puzzles
-//        do {
-//            let realm = try Realm()
-//            token = realm.addNotificationBlock({ (notification, realm) -> Void in
-//                self.puzzlesTableView.reloadData()
-//            })
-//            
-//            savedPuzzles = realm.objects(Puzzle)
-//            
-//        } catch {
-//            print("Error loading saved puzzles: \(error)")
-//            
-//            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
-//            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
-//            errorAlertController.addAction(dismissAlertAction)
-//            presentViewController(errorAlertController, animated: true, completion: nil)
-//        }
+        // Load Saved Puzzles
+        do {
+            let realm = try Realm()
+            token = realm.addNotificationBlock({ (notification, realm) -> Void in
+                self.puzzlesTableView.reloadData()
+            })
+            
+            savedPuzzles = realm.objects(Puzzle)
+            
+        } catch {
+            print("Error loading saved puzzles: \(error)")
+            
+            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            presentViewController(errorAlertController, animated: true, completion: nil)
+        }
         
         // Get current location
         setupLocationServices()
@@ -202,7 +202,17 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                     let latitude = firebaseData["latitude"] as! Double
                     if (self.minLatitude < latitude && latitude < self.maxLatitude) {
                         firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
-                        self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
+                        
+                        // Check if puzzle is already saved (by using id)
+                        let savedPuzzle = self.savedPuzzles.filter( { $0.id == firebaseData["id"] } ).first
+                        if savedPuzzle != nil {
+                            // Update saved puzzle to firebase data
+                            savedPuzzle!.updateData(fromFirebaseData: firebaseData)
+                            
+                            self.allPuzzles.append(savedPuzzle!)
+                        } else {
+                            self.allPuzzles.append(Puzzle(fromFirebaseData: firebaseData))
+                        }
                     }
                 }
                 
@@ -231,14 +241,13 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func sortPuzzles() {
-        if (segmentedControlView.selectedSegmentIndex == 0) {
+        if (segmentedControlView.selectedSegmentIndex == 1) {           // New Puzzles
             // Sort By Timestamp Descending (id)
             self.allPuzzles.sortInPlace({ $0.id > $1.id })
-        } else if (segmentedControlView.selectedSegmentIndex == 1) {
+        } else if (segmentedControlView.selectedSegmentIndex == 2) {    // Top Puzzles
             // Sort By Votes Descending
             self.allPuzzles.sortInPlace({ $0.votes > $1.votes })
         }
-        
     }
     
 //    func updateSavedPuzzle(savedPuzzle: Puzzle, withFirebaseData firebaseData: [String : NSObject]) {
@@ -350,13 +359,21 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allPuzzles.count
+        if (segmentedControlView.selectedSegmentIndex == 0) {       // Saved Puzzles
+            return savedPuzzles.count
+        } else {                                                    // Regular Firebase Puzzles
+            return allPuzzles.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("puzzleCell", forIndexPath: indexPath) as! PuzzleTableViewCell
         
-        cell.puzzle = allPuzzles[indexPath.row]
+        if (segmentedControlView.selectedSegmentIndex == 0) {          // Saved Puzzles
+            cell.puzzle = savedPuzzles[indexPath.row]
+        } else {                                                    // Regular Firebase Puzzles
+            cell.puzzle = allPuzzles[indexPath.row]
+        }
         cell.updateUI()
         
         return cell

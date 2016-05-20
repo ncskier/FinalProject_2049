@@ -63,7 +63,6 @@ class Puzzle: Object {
     func convertToFirebaseData() -> [String : NSObject] {
         var dataDictionary = [String : NSObject]()
         
-        
         dataDictionary["pictureData"] = "\(pictureData.base64EncodedStringWithOptions([]))"
         
         dataDictionary["longitude"] = longitude
@@ -74,6 +73,39 @@ class Puzzle: Object {
         dataDictionary["usersCorrect"] = usersCorrect
         
         return dataDictionary
+    }
+    
+    func updateData(fromFirebaseData firebaseData: [String : NSObject]) {
+        
+        // Connect to Realm
+        var realm : Realm?
+        do {
+            realm = try Realm()
+        } catch {
+            print("Error Connecting to Realm: \(error)")
+            
+            let errorAlertController = UIAlertController(title: "Error Connecting to Realm", message: "\(error)", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+        }
+        
+        // Update Saved Puzzle Object
+        do {
+            if (realm != nil) {
+                try realm!.write( {
+                    votes = Int(String(firebaseData["votes"]!))!
+                    usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
+                })
+            }
+        } catch {
+            print("Error updating saved puzzles: \(error)")
+            
+            let errorAlertController = UIAlertController(title: "Error Updating Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            errorAlertController.addAction(dismissAlertAction)
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+        }
     }
     
 }

@@ -150,6 +150,44 @@ class PuzzleTableViewCell: UITableViewCell {
         })
     }
     
+    func incrementPuzzleVotesBy(votes: Int) {
+        // Update Vote Text
+        votesLabel.text = "\(Int(votesLabel.text!)! + votes)"
+        
+        let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
+        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
+        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
+        let puzzleVotesReference = puzzleReference.childByAppendingPath("votes")
+        
+        // Retrieve Puzzle Votes from Firebase
+        puzzleVotesReference.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            print("snapshot.value: \(snapshot.value)")
+            
+            // Update Realm Puzzle Object
+            do {
+                let realm = try Realm()
+                
+                try realm.write({
+                    self.puzzle.votes = (snapshot.value as! Int) + votes
+                })
+            }
+            catch {
+                print("error updating puzzle votes: \(error)")
+                
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                errorAlertController.addAction(dismissAlertAction)
+                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+            }
+            
+            // Update Firebase Data
+            self.updatePuzzleFirebaseData()
+            
+            // Update Votes Label
+            self.updateVotesLabel()
+        })
+    }
+    
     @IBAction func upVoteButtonTapped(sender: UIButton) {
         if (userVote == 1) {    // Up Vote (Toggle)
             // Update User Vote
@@ -159,7 +197,7 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(-1)
+            incrementPuzzleVotesBy(-1)
             
         } else if (userVote == 0) {    // No Vote
             // Update User Vote
@@ -169,7 +207,7 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(1)
+            incrementPuzzleVotesBy(1)
             
         } else {    // Down Vote
             // Update User Vote
@@ -179,19 +217,13 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(2)
+            incrementPuzzleVotesBy(2)
         }
-        
-        // Update Votes Label
-        updateVotesLabel()
         
         // Store userVote
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
-        
-        // Update Firebase Data
-        updatePuzzleFirebaseData()
     }
 
     @IBAction func downVoteButtonTapped(sender: UIButton) {
@@ -203,7 +235,7 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(1)
+            incrementPuzzleVotesBy(1)
             
         } else if (userVote == 0) {    // No Vote
             // Update User Vote
@@ -213,7 +245,7 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(-1)
+            incrementPuzzleVotesBy(-1)
             
         } else {    // Up Vote
             // Update User Vote
@@ -223,18 +255,12 @@ class PuzzleTableViewCell: UITableViewCell {
             updateVoteButtons()
             
             // Update Puzzle Data
-            incrementRealmPuzzleVotesBy(-2)
+            incrementPuzzleVotesBy(-2)
         }
-        
-        // Update Vote Label
-        updateVotesLabel()
         
         // Store userVote
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
-        
-        // Update Firebase Data
-        updatePuzzleFirebaseData()
     }
 }
