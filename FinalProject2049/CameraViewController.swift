@@ -39,31 +39,31 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         // Use Photo Button
         let width : CGFloat = 100.0
         let height : CGFloat = 30.0
-        usePhotoButton = UIButton(type: .System)
-        usePhotoButton.setTitle("Use Photo", forState: .Normal)
+        usePhotoButton = UIButton(type: .system)
+        usePhotoButton.setTitle("Use Photo", for: UIControlState())
         usePhotoButton.frame = CGRect(
             x: view.frame.maxX - width - 8,
             y: view.frame.maxY - height - 78.0,
             width: width,
             height: height
         )
-        usePhotoButton.addTarget(self, action: #selector(usePhotoButtonTapped), forControlEvents: .TouchUpInside)
+        usePhotoButton.addTarget(self, action: #selector(usePhotoButtonTapped), for: .touchUpInside)
         view.addSubview(usePhotoButton)
         
         // Retake Picture Button
-        retakePictureButton = UIButton(type: .System)
-        retakePictureButton.setTitle("Retake", forState: .Normal)
+        retakePictureButton = UIButton(type: .system)
+        retakePictureButton.setTitle("Retake", for: UIControlState())
         retakePictureButton.frame = CGRect(
             x: view.frame.minX + 8,
             y: view.frame.maxY - height - 78,
             width: width,
             height: height
         )
-        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), forControlEvents: .TouchUpInside)
+        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), for: .touchUpInside)
         view.addSubview(retakePictureButton)
         
         // Capture Photo Button
-        capturePhotoButton = UIButton(type: .Custom)
+        capturePhotoButton = UIButton(type: .custom)
         let length : CGFloat = 70.0
         capturePhotoButton.frame = CGRect(
             x: view.frame.midX - length/2.0,
@@ -72,26 +72,26 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
             height: length
         )
         capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
-        capturePhotoButton.backgroundColor = UIColor.blackColor()
-        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), forControlEvents: .TouchUpInside)
+        capturePhotoButton.backgroundColor = UIColor.black
+        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), for: .touchUpInside)
         view.addSubview(capturePhotoButton)
-        view.bringSubviewToFront(capturePhotoButton)
+        view.bringSubview(toFront: capturePhotoButton)
         
         // Set up captured image view
         capturedImageView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: view.bounds.width)
         view.addSubview(capturedImageView)
         
         // Hide Captured Image View
-        capturedImageView.hidden = true
-        usePhotoButton.hidden = true     // Hide until picture is taken
-        retakePictureButton.hidden = true
+        capturedImageView.isHidden = true
+        usePhotoButton.isHidden = true     // Hide until picture is taken
+        retakePictureButton.isHidden = true
         
         // Set up Capture Session
         captureSession = AVCaptureSession()
         captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
         
         // Set up input device
-        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         let input = try? AVCaptureDeviceInput(device: backCamera)
         
@@ -121,32 +121,32 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     func setupLocationServices() {
         
         let authorizationStatus = CLLocationManager.authorizationStatus()
-        if (authorizationStatus == .Restricted) {
+        if (authorizationStatus == .restricted) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorization Restricted",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
             
-        } else if (authorizationStatus == .Denied) {
+        } else if (authorizationStatus == .denied) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorisation Denied",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
@@ -158,7 +158,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest
             locationManager!.distanceFilter = 0.5
             
-            if (authorizationStatus == .NotDetermined) {
+            if (authorizationStatus == .notDetermined) {
                 locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
             } else {
                 locationManager!.startUpdatingLocation()
@@ -176,7 +176,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     
     func cropToSquare(image originalImage: UIImage) -> UIImage {
         // Create a copy of the image without the imageOrientation property so it is in its native orientation (landscape)
-        let contextImage: UIImage = UIImage(CGImage: originalImage.CGImage!)
+        let contextImage: UIImage = UIImage(cgImage: originalImage.cgImage!)
         
         // Get the size of the contextImage
         let contextSize: CGSize = contextImage.size
@@ -199,13 +199,13 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
             height = contextSize.width
         }
         
-        let rect: CGRect = CGRectMake(posX, posY, width, height)
+        let rect: CGRect = CGRect(x: posX, y: posY, width: width, height: height)
         
         // Create bitmap image from context using the rect
-        let imageRef: CGImageRef = CGImageCreateWithImageInRect(contextImage.CGImage, rect)!
+        let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
         
         // Create a new image based on the imageRef and rotate back to the original orientation
-        let image: UIImage = UIImage(CGImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let image: UIImage = UIImage(cgImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
         return image
     }
@@ -213,7 +213,7 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         print("Error: \(error.description)")
         
@@ -221,19 +221,19 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
         let errorAlertController = UIAlertController(
             title: "Location Services Error",
             message: "\(error.description)",
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
         let dismissAlertAction = UIAlertAction(
             title: "Dismiss",
-            style: .Default,
+            style: .default,
             handler: nil
         )
         errorAlertController.addAction(dismissAlertAction)
         
-        presentViewController(errorAlertController, animated: true, completion: nil)
+        present(errorAlertController, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
 //        let currentLocation = locations.last!
         
@@ -244,30 +244,30 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
 //        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        if (status == .AuthorizedWhenInUse) {
+        if (status == .authorizedWhenInUse) {
             locationManager!.startUpdatingLocation()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
         print("Did finish deferring updates with error: \(error!.description)")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         print("Did update heading: \(newHeading)")
     }
     
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         print("did pause location updates")
     }
     
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("Did resume location updates")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+    func locationManager(_ manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         print("did update to location: \(newLocation)")
     }
     
@@ -275,15 +275,15 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Actions
     func capturePhotoButtonTapped() {
         // Set up data connection to capture photo
-        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
+        if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo) {
             
-            stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
+            stillImageOutput!.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
                 
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                let dataProvider = CGDataProviderCreateWithCFData(imageData)
-                let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                let dataProvider = CGDataProvider(data: imageData as! CFData)
+                let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
                 
-                let contextImage = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: .Right)
+                let contextImage = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .right)
                 
                 // Crop image to a square
                 let croppedImage = self.cropToSquare(image: contextImage)
@@ -291,13 +291,13 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
                 self.capturedImageView.image = croppedImage
                 
                 // Show capturedImageView and buttons
-                self.capturedImageView.hidden = false
-                self.usePhotoButton.hidden = false
-                self.retakePictureButton.hidden = false
+                self.capturedImageView.isHidden = false
+                self.usePhotoButton.isHidden = false
+                self.retakePictureButton.isHidden = false
                 
                 // Hide previewLayer
-                self.previewLayer!.hidden = true
-                self.capturePhotoButton.hidden = true
+                self.previewLayer!.isHidden = true
+                self.capturePhotoButton.isHidden = true
             })
         }
         
@@ -314,15 +314,15 @@ class CameraViewController: UIViewController, CLLocationManagerDelegate {
     func retakePictureButtonTapped() {
         
         // Show previewLayer
-        previewLayer!.hidden = false
-        capturePhotoButton.hidden = false
+        previewLayer!.isHidden = false
+        capturePhotoButton.isHidden = false
         
         // Hide capturedImageView and buttons
-        capturedImageView.hidden = true
+        capturedImageView.isHidden = true
         capturedImageView.image = nil
         
-        usePhotoButton.hidden = true
-        retakePictureButton.hidden = true
+        usePhotoButton.isHidden = true
+        retakePictureButton.isHidden = true
     }
     
     func usePhotoButtonTapped() {

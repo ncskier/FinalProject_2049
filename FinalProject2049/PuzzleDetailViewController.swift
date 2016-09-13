@@ -30,22 +30,22 @@ class PuzzleDetailViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         if (puzzle != nil) {
-            puzzleImageView.image = UIImage(data: puzzle.pictureData)
+            puzzleImageView.image = UIImage(data: puzzle.pictureData as Data)
             
             // Puzzle Saved
-            let defaults = NSUserDefaults.standardUserDefaults()
-            let puzzleSaved = defaults.boolForKey(puzzle.id + ".saved")
+            let defaults = UserDefaults.standard
+            let puzzleSaved = defaults.bool(forKey: puzzle.id + ".saved")
             if (puzzleSaved) {
-                saveButton.enabled = false
+                saveButton.isEnabled = false
             }
             
             // Get user vote
-            userVote = defaults.integerForKey(puzzle.id + ".userVote")
+            userVote = defaults.integer(forKey: puzzle.id + ".userVote")
             if (userVote == 1) {    // Up Vote
-                upVoteButton.setImage(UIImage(named: "upCarrot_selected"), forState: .Normal)
+                upVoteButton.setImage(UIImage(named: "upCarrot_selected"), for: UIControlState())
             }
             if (userVote == -1) {    // Down Vote
-                downVoteButton.setImage(UIImage(named: "downCarrot_selected"), forState: .Normal)
+                downVoteButton.setImage(UIImage(named: "downCarrot_selected"), for: UIControlState())
             }
             
             // Vote Label
@@ -59,17 +59,17 @@ class PuzzleDetailViewController: UIViewController {
             
         } else {
             print("Error: Puzzle object is nil")
-            let errorAlertController = UIAlertController(title: "Error Loading Puzzle Data", message: "Sorry, there was an error loading the puzzle.", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Loading Puzzle Data", message: "Sorry, there was an error loading the puzzle.", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
+            present(errorAlertController, animated: true, completion: nil)
             
             // Dismiss Puzzle Detail View
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         updateSolveButton()
         
         // Users Correct Label
@@ -83,25 +83,25 @@ class PuzzleDetailViewController: UIViewController {
     
     func updateSolveButton() {
         // Retreive if user has answered Puzzle
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let solved = defaults.boolForKey(puzzle.id + ".solved")
+        let defaults = UserDefaults.standard
+        let solved = defaults.bool(forKey: puzzle.id + ".solved")
         
         if (solved) {
             // Deactivate and Hide Solve Button
-            solveButton.enabled = false
-            solveButton.hidden = true
+            solveButton.isEnabled = false
+            solveButton.isHidden = true
             
             // Show solved label
-            solvedLabel.hidden = false
+            solvedLabel.isHidden = false
             
             
         } else {
             // Hide solved label
-            solvedLabel.hidden = true
+            solvedLabel.isHidden = true
         }
     }
     
-    @IBAction func saveButtonTapped(sender: UIButton) {
+    @IBAction func saveButtonTapped(_ sender: UIButton) {
         
 //        print("title text: \(saveButton.titleLabel!.text)")
         
@@ -118,19 +118,19 @@ class PuzzleDetailViewController: UIViewController {
         catch {
             print("Error saving puzzle: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Saving Puzzle", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Saving Puzzle", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
+            present(errorAlertController, animated: true, completion: nil)
         }
         
         // Set Puzzle Saved to defaults
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setBool(true, forKey: puzzle.id + ".saved")
+        let defaults = UserDefaults.standard
+        defaults.set(true, forKey: puzzle.id + ".saved")
         defaults.synchronize()
         
         // Change Save Button
-        saveButton.enabled = false
+        saveButton.isEnabled = false
         
 //        print("Remove")
 //        
@@ -152,7 +152,7 @@ class PuzzleDetailViewController: UIViewController {
 //        }
     }
     
-    @IBAction func upVoteButtonTapped(sender: UIButton) {
+    @IBAction func upVoteButtonTapped(_ sender: UIButton) {
         if (userVote == 1) {    // Up Vote (Toggle)
             // Update User Vote
             userVote = 0
@@ -185,15 +185,15 @@ class PuzzleDetailViewController: UIViewController {
         }
         
         // Store userVote
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        let defaults = UserDefaults.standard
+        defaults.set(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
         
         // Update Firebase Data
 //        updatePuzzleFirebaseData()
     }
     
-    @IBAction func downVoteButtonTapped(sender: UIButton) {
+    @IBAction func downVoteButtonTapped(_ sender: UIButton) {
         if (userVote == -1) {    // Down Vote (Toggle)
             // Update User Vote
             userVote = 0
@@ -226,8 +226,8 @@ class PuzzleDetailViewController: UIViewController {
         }
         
         // Store userVote
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        let defaults = UserDefaults.standard
+        defaults.set(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
         
         // Update Firebase Data
@@ -243,31 +243,31 @@ class PuzzleDetailViewController: UIViewController {
         // Update vote buttons base on userVote
         
         if (userVote == 1) {    // Up Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), for: UIControlState())
             
         } else if (userVote == -1) {    // Down Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), for: UIControlState())
             
         } else {    // No Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), for: UIControlState())
         }
     }
     
-    func incrementPuzzleVotesBy(votes: Int) {
+    func incrementPuzzleVotesBy(_ votes: Int) {
         // Update Vote Text
         votesLabel.text = "\(Int(votesLabel.text!)! + votes)"
         
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
-        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
-        let puzzleVotesReference = puzzleReference.childByAppendingPath("votes")
+        let puzzlesReferece = firebaseReference?.child(byAppendingPath: "puzzles")
+        let puzzleReference = puzzlesReferece?.child(byAppendingPath: puzzle.id)
+        let puzzleVotesReference = puzzleReference?.child(byAppendingPath: "votes")
         
         // Retrieve Puzzle Votes from Firebase
-        puzzleVotesReference.observeSingleEventOfType(.Value, withBlock: { snapshot in
-            print("snapshot.value: \(snapshot.value)")
+        puzzleVotesReference?.observeSingleEvent(of: .value, with: { snapshot in
+            print("snapshot.value: \(snapshot?.value)")
             
             // Update Realm Puzzle Object
             do {
@@ -280,10 +280,10 @@ class PuzzleDetailViewController: UIViewController {
             catch {
                 print("error updating puzzle votes: \(error)")
                 
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
             }
             
             // Update Firebase Data
@@ -294,7 +294,7 @@ class PuzzleDetailViewController: UIViewController {
         })
     }
     
-    func incrementRealmPuzzleVotesBy(votes: Int) {
+    func incrementRealmPuzzleVotesBy(_ votes: Int) {
         do {
             let realm = try Realm()
             
@@ -305,28 +305,28 @@ class PuzzleDetailViewController: UIViewController {
         catch {
             print("error updating puzzle votes: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            self.presentViewController(errorAlertController, animated: true, completion: nil)
+            self.present(errorAlertController, animated: true, completion: nil)
         }
     }
     
     func updatePuzzleFirebaseData() {
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
-        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
-        let puzzleVotesReference = puzzleReference.childByAppendingPath("votes")
-        puzzleVotesReference.setValue(puzzle.votes, withCompletionBlock: {(error, firebaseRef) in
+        let puzzlesReferece = firebaseReference?.child(byAppendingPath: "puzzles")
+        let puzzleReference = puzzlesReferece?.child(byAppendingPath: puzzle.id)
+        let puzzleVotesReference = puzzleReference?.child(byAppendingPath: "votes")
+        puzzleVotesReference?.setValue(puzzle.votes, withCompletionBlock: {(error, firebaseRef) in
             
             if (error != nil) {
                 print("Error saving to firebase: \(error)")
                 
                 // Alert User of error
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                self.presentViewController(errorAlertController, animated: true, completion: nil)
+                self.present(errorAlertController, animated: true, completion: nil)
             } else {
                 print("Succesfully saved votes to Firebase")
             }
@@ -339,11 +339,11 @@ class PuzzleDetailViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == "solvePuzzleSegue") {
             // Get the new view controller using segue.destinationViewController.
-            let destinationViewController = segue.destinationViewController as! SolvePuzzleViewController
+            let destinationViewController = segue.destination as! SolvePuzzleViewController
             
             // Pass the selected object to the new view controller.
             destinationViewController.puzzle = puzzle

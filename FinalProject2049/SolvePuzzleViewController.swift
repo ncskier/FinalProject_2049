@@ -41,12 +41,12 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         
         // Visuals
-        solvedLabel.hidden = true
-        incorrectLabel.hidden = true
+        solvedLabel.isHidden = true
+        incorrectLabel.isHidden = true
         
         // Preview Puzzle View
         let previewLength = view.frame.width/4.0
-        previewPuzzleView = UIImageView(image: UIImage(data: puzzle.pictureData))
+        previewPuzzleView = UIImageView(image: UIImage(data: puzzle.pictureData as Data))
         previewPuzzleView.frame = CGRect(
             x: view.frame.maxX - previewLength - 8,
             y: view.frame.maxY - previewLength - 8,
@@ -64,19 +64,19 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         // Retake Picture Button
         let width : CGFloat = 100.0
         let height : CGFloat = 30.0
-        retakePictureButton = UIButton(type: .System)
-        retakePictureButton.setTitle("Retake", forState: .Normal)
+        retakePictureButton = UIButton(type: .system)
+        retakePictureButton.setTitle("Retake", for: UIControlState())
         retakePictureButton.frame = CGRect(
             x: view.frame.minX + 8,
             y: view.frame.maxY - height - 78,
             width: width,
             height: height
         )
-        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), forControlEvents: .TouchUpInside)
+        retakePictureButton.addTarget(self, action: #selector(retakePictureButtonTapped), for: .touchUpInside)
         view.addSubview(retakePictureButton)
         
         // Capture Photo Button
-        capturePhotoButton = UIButton(type: .Custom)
+        capturePhotoButton = UIButton(type: .custom)
         let length : CGFloat = 70.0
         capturePhotoButton.frame = CGRect(
             x: view.frame.midX - length/2.0,
@@ -85,25 +85,25 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             height: length
         )
         capturePhotoButton.layer.cornerRadius = capturePhotoButton.frame.width/2.0
-        capturePhotoButton.backgroundColor = UIColor.blackColor()
-        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), forControlEvents: .TouchUpInside)
+        capturePhotoButton.backgroundColor = UIColor.black
+        capturePhotoButton.addTarget(self, action: #selector(capturePhotoButtonTapped), for: .touchUpInside)
         view.addSubview(capturePhotoButton)
-        view.bringSubviewToFront(capturePhotoButton)
+        view.bringSubview(toFront: capturePhotoButton)
         
         // Set up captured image view
         capturedImageView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: view.bounds.width)
         view.addSubview(capturedImageView)
         
         // Hide Captured Image View
-        capturedImageView.hidden = true
-        retakePictureButton.hidden = true
+        capturedImageView.isHidden = true
+        retakePictureButton.isHidden = true
         
         // Set up Capture Session
         captureSession = AVCaptureSession()
         captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
         
         // Set up input device
-        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         let input = try? AVCaptureDeviceInput(device: backCamera)
         
@@ -133,32 +133,32 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     func setupLocationServices() {
         
         let authorizationStatus = CLLocationManager.authorizationStatus()
-        if (authorizationStatus == .Restricted) {
+        if (authorizationStatus == .restricted) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorization Restricted",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
             
-        } else if (authorizationStatus == .Denied) {
+        } else if (authorizationStatus == .denied) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorisation Denied",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
@@ -170,7 +170,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest
             locationManager!.distanceFilter = 0.5
             
-            if (authorizationStatus == .NotDetermined) {
+            if (authorizationStatus == .notDetermined) {
                 locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
             } else {
                 locationManager!.startUpdatingLocation()
@@ -206,19 +206,19 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     
     func updatePuzzleFirebasePuzzleUsersCorrect() {
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
-        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
-        let puzzleUsersCorrectReference = puzzleReference.childByAppendingPath("usersCorrect")
-        puzzleUsersCorrectReference.setValue(puzzle.usersCorrect, withCompletionBlock: {(error, firebaseRef) in
+        let puzzlesReferece = firebaseReference?.child(byAppendingPath: "puzzles")
+        let puzzleReference = puzzlesReferece?.child(byAppendingPath: puzzle.id)
+        let puzzleUsersCorrectReference = puzzleReference?.child(byAppendingPath: "usersCorrect")
+        puzzleUsersCorrectReference?.setValue(puzzle.usersCorrect, withCompletionBlock: {(error, firebaseRef) in
             
             if (error != nil) {
                 print("Error updating users correct to firebase: \(error)")
                 
                 // Alert User of error
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Users Correct", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
             } else {
                 print("Succesfully saved votes to Firebase")
             }
@@ -228,7 +228,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     
     func cropToSquare(image originalImage: UIImage) -> UIImage {
         // Create a copy of the image without the imageOrientation property so it is in its native orientation (landscape)
-        let contextImage: UIImage = UIImage(CGImage: originalImage.CGImage!)
+        let contextImage: UIImage = UIImage(cgImage: originalImage.cgImage!)
         
         // Get the size of the contextImage
         let contextSize: CGSize = contextImage.size
@@ -251,20 +251,20 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             height = contextSize.width
         }
         
-        let rect: CGRect = CGRectMake(posX, posY, width, height)
+        let rect: CGRect = CGRect(x: posX, y: posY, width: width, height: height)
         
         // Create bitmap image from context using the rect
-        let imageRef: CGImageRef = CGImageCreateWithImageInRect(contextImage.CGImage, rect)!
+        let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
         
         // Create a new image based on the imageRef and rotate back to the original orientation
-        let image: UIImage = UIImage(CGImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let image: UIImage = UIImage(cgImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
         return image
     }
     
     // Lay preview puzzle view over camera preview
     func enlargePreviewPuzzleView() {
-        view.bringSubviewToFront(previewPuzzleView)
+        view.bringSubview(toFront: previewPuzzleView)
         previewPuzzleEnlarged = true
         
         UIView.beginAnimations(nil, context: nil)
@@ -285,23 +285,23 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     // MARK: - Touch Events
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             handlePreviewPuzzleTouch(touch)
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             handlePreviewPuzzleTouch(touch)
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         handlePreviewPuzzleEndTouch()
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         handlePreviewPuzzleEndTouch()
     }
     
@@ -311,10 +311,10 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func handlePreviewPuzzleTouch(touch: UITouch) {
+    func handlePreviewPuzzleTouch(_ touch: UITouch) {
         if (!previewPuzzleEnlarged) {       // Only check if preview puzzle is NOT enlarged
-            let location = touch.locationInView(view)
-            if (CGRectContainsPoint(previewPuzzleView.frame, location)) {
+            let location = touch.location(in: view)
+            if (previewPuzzleView.frame.contains(location)) {
                 enlargePreviewPuzzleView()
             }
         }
@@ -322,7 +322,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         print("Error: \(error.description)")
         
@@ -330,19 +330,19 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         let errorAlertController = UIAlertController(
             title: "Location Services Error",
             message: "\(error.description)",
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
         let dismissAlertAction = UIAlertAction(
             title: "Dismiss",
-            style: .Default,
+            style: .default,
             handler: nil
         )
         errorAlertController.addAction(dismissAlertAction)
         
-        presentViewController(errorAlertController, animated: true, completion: nil)
+        present(errorAlertController, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         //        let currentLocation = locations.last!
         
@@ -353,30 +353,30 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         //        print("\tVertical accuracy: \(currentLocation.verticalAccuracy) (meters)")
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        if (status == .AuthorizedWhenInUse) {
+        if (status == .authorizedWhenInUse) {
             locationManager!.startUpdatingLocation()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
         print("Did finish deferring updates with error: \(error!.description)")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         print("Did update heading: \(newHeading)")
     }
     
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         print("did pause location updates")
     }
     
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("Did resume location updates")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+    func locationManager(_ manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         print("did update to location: \(newLocation)")
     }
     
@@ -391,15 +391,15 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
 //        }
         
         // Set up data connection to capture photo
-        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
+        if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo) {
             
-            stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
+            stillImageOutput!.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
                 
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                let dataProvider = CGDataProviderCreateWithCFData(imageData)
-                let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, .RenderingIntentDefault)
+                let dataProvider = CGDataProvider(data: imageData as! CFData)
+                let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
                 
-                let contextImage = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: .Right)
+                let contextImage = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .right)
                 
                 // Crop image to a square
                 let croppedImage = self.cropToSquare(image: contextImage)
@@ -407,12 +407,12 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
                 self.capturedImageView.image = croppedImage
                 
                 // Show capturedImageView and buttons
-                self.capturedImageView.hidden = false
-                self.retakePictureButton.hidden = false
+                self.capturedImageView.isHidden = false
+                self.retakePictureButton.isHidden = false
                 
                 // Hide previewLayer
-                self.previewLayer!.hidden = true
-                self.capturePhotoButton.hidden = true
+                self.previewLayer!.isHidden = true
+                self.capturePhotoButton.isHidden = true
             })
         }
         
@@ -430,13 +430,13 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
         if (pictureLocation!.horizontalAccuracy > worstAccuracy) {
             worstAccuracy = pictureLocation!.horizontalAccuracy
         }
-        if (pictureLocation!.distanceFromLocation(puzzleLocation) < worstAccuracy) {    // Puzzle Solved
-            solvedLabel.hidden = false
-            incorrectLabel.hidden = true
+        if (pictureLocation!.distance(from: puzzleLocation) < worstAccuracy) {    // Puzzle Solved
+            solvedLabel.isHidden = false
+            incorrectLabel.isHidden = true
             
             // Update User Defaults
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setBool(true, forKey: puzzle.id + ".solved")
+            let defaults = UserDefaults.standard
+            defaults.set(true, forKey: puzzle.id + ".solved")
             defaults.synchronize()
             
             // Update Users Correct
@@ -451,19 +451,19 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
             catch {
                 print("error updating puzzle votes: \(error)")
                 
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                presentViewController(errorAlertController, animated: true, completion: nil)
+                present(errorAlertController, animated: true, completion: nil)
             }
             updatePuzzleFirebasePuzzleUsersCorrect()
             
             // Dismiss View (Go Back to Detail View)
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
             
         } else {    // Puzzle Incorrect
-            incorrectLabel.hidden = false
-            solvedLabel.hidden = true
+            incorrectLabel.isHidden = false
+            solvedLabel.isHidden = true
             
             
         }
@@ -482,7 +482,7 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
 //        locationAlertController.addAction(dismissAlertAction)
 //        presentViewController(locationAlertController, animated: true, completion: nil)
         
-        print("Distance from puzzle: \(pictureLocation!.distanceFromLocation(puzzleLocation))")
+        print("Distance from puzzle: \(pictureLocation!.distance(from: puzzleLocation))")
         print("Puzzle Horizontal Accuracy: \(puzzle.horizontalAccuracy)")
         print("Solution Horozontal Accuracy: \(pictureLocation!.horizontalAccuracy)")
     }
@@ -490,20 +490,20 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     func retakePictureButtonTapped() {
         
         // Show previewLayer
-        previewLayer!.hidden = false
-        capturePhotoButton.hidden = false
+        previewLayer!.isHidden = false
+        capturePhotoButton.isHidden = false
         
         // Hide capturedImageView and buttons
-        capturedImageView.hidden = true
+        capturedImageView.isHidden = true
         capturedImageView.image = nil
-        incorrectLabel.hidden = true
-        solvedLabel.hidden = true
+        incorrectLabel.isHidden = true
+        solvedLabel.isHidden = true
         
-        retakePictureButton.hidden = true
+        retakePictureButton.isHidden = true
     }
     
-    @IBAction func cancelButtonTapped(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     /*
@@ -516,8 +516,8 @@ class SolvePuzzleViewController: UIViewController, CLLocationManagerDelegate {
     }
     */
     
-    override func viewWillDisappear(animated: Bool) {
-        if (locationManager != nil && CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) {
+    override func viewWillDisappear(_ animated: Bool) {
+        if (locationManager != nil && CLLocationManager.authorizationStatus() == .authorizedWhenInUse) {
             locationManager!.stopUpdatingLocation()
         }
     }

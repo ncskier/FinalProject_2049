@@ -13,7 +13,7 @@ class Puzzle: Object {
     
     dynamic var id : String = ""
     
-    dynamic var pictureData : NSData!
+    dynamic var pictureData : Data!
     
     dynamic var longitude : Double = 0
     dynamic var latitude : Double = 0
@@ -32,7 +32,7 @@ class Puzzle: Object {
     }
     
     
-    convenience init(withPictureData pictureData: NSData, latitude: Double, longitude: Double, horizontalAccuracy: Double, tag: String) {
+    convenience init(withPictureData pictureData: Data, latitude: Double, longitude: Double, horizontalAccuracy: Double, tag: String) {
         self.init()
         
         self.pictureData = pictureData
@@ -47,7 +47,7 @@ class Puzzle: Object {
         
         id = firebaseData["id"] as! String
         
-        pictureData = NSData(base64EncodedString: firebaseData["pictureData"] as! String, options: [])
+        pictureData = Data(base64Encoded: firebaseData["pictureData"] as! String, options: [])
         
         longitude = firebaseData["longitude"] as! Double
         latitude = firebaseData["latitude"] as! Double
@@ -55,22 +55,22 @@ class Puzzle: Object {
         
         tag = firebaseData["tag"] as! String
         
-        votes = Int(String(firebaseData["votes"]!))!
-        usersCorrect = Int(String(firebaseData["usersCorrect"]!))!
+        votes = Int(String(describing: firebaseData["votes"]!))!
+        usersCorrect = Int(String(describing: firebaseData["usersCorrect"]!))!
         
     }
     
     func convertToFirebaseData() -> [String : NSObject] {
         var dataDictionary = [String : NSObject]()
         
-        dataDictionary["pictureData"] = "\(pictureData.base64EncodedStringWithOptions([]))"
+        dataDictionary["pictureData"] = "\(pictureData.base64EncodedString(options: []))" as NSObject?
         
-        dataDictionary["longitude"] = longitude
-        dataDictionary["latitude"] = latitude
-        dataDictionary["horizontalAccuracy"] = horizontalAccuracy
-        dataDictionary["tag"] = tag
-        dataDictionary["votes"] = votes
-        dataDictionary["usersCorrect"] = usersCorrect
+        dataDictionary["longitude"] = longitude as NSObject?
+        dataDictionary["latitude"] = latitude as NSObject?
+        dataDictionary["horizontalAccuracy"] = horizontalAccuracy as NSObject?
+        dataDictionary["tag"] = tag as NSObject?
+        dataDictionary["votes"] = votes as NSObject?
+        dataDictionary["usersCorrect"] = usersCorrect as NSObject?
         
         return dataDictionary
     }
@@ -84,10 +84,10 @@ class Puzzle: Object {
         } catch {
             print("Error Connecting to Realm: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Connecting to Realm", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Connecting to Realm", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
         }
         
         // Update Saved Puzzle Object
@@ -101,10 +101,10 @@ class Puzzle: Object {
         } catch {
             print("Error updating saved puzzles: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Updating Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Updating Saved Puzzles", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
         }
     }
     

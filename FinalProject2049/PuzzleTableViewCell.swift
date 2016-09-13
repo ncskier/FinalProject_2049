@@ -34,7 +34,7 @@ class PuzzleTableViewCell: UITableViewCell {
         addSubview(solvedImageView)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -43,23 +43,23 @@ class PuzzleTableViewCell: UITableViewCell {
     func updateUI() {
         print("update UI \(puzzle.id)")
         
-        let image = UIImage(data: puzzle.pictureData)
+        let image = UIImage(data: puzzle.pictureData as Data)
         detailImageView.frame = CGRect(x: 0, y: 0, width: frame.width/2.0, height: frame.width/2.0)
         detailImageView.center = CGPoint(x: frame.width/4.0, y: frame.height/2.0)
         detailImageView.image = image
         
         // Vote Buttons
         // Get Previous Vote
-        let defaults = NSUserDefaults.standardUserDefaults()
-        userVote = defaults.integerForKey(puzzle.id + ".userVote")
+        let defaults = UserDefaults.standard
+        userVote = defaults.integer(forKey: puzzle.id + ".userVote")
         
         if (userVote == 1) {    // Up Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), for: UIControlState())
         }
         if (userVote == -1) {    // Down Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), for: UIControlState())
         }
         
         // Vote Label
@@ -77,16 +77,16 @@ class PuzzleTableViewCell: UITableViewCell {
         let length = self.frame.height - 35
         solvedImageView.frame = CGRect(x: 0, y: 0, width: length, height: length)
         solvedImageView.center = detailImageView.center
-        solvedImageView.hidden = true
+        solvedImageView.isHidden = true
         solvedImageView.alpha = 0.75
-        bringSubviewToFront(solvedImageView)
+        bringSubview(toFront: solvedImageView)
         
         // Get Solved
-        let solved = defaults.boolForKey(puzzle.id + ".solved")
+        let solved = defaults.bool(forKey: puzzle.id + ".solved")
         if (solved) {
             print("\t \(puzzle.id) solved")
-            bringSubviewToFront(solvedImageView)
-            solvedImageView.hidden = false
+            bringSubview(toFront: solvedImageView)
+            solvedImageView.isHidden = false
         }
     }
     
@@ -98,20 +98,20 @@ class PuzzleTableViewCell: UITableViewCell {
         // Update vote buttons base on userVote
         
         if (userVote == 1) {    // Up Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_selected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), for: UIControlState())
             
         } else if (userVote == -1) {    // Down Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_selected"), for: UIControlState())
         
         } else {    // No Vote
-            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), forState: .Normal)
-            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), forState: .Normal)
+            upVoteButton.setImage(UIImage(named: "upCarrot_deselected"), for: UIControlState())
+            downVoteButton.setImage(UIImage(named: "downCarrot_deselected"), for: UIControlState())
         }
     }
     
-    func incrementRealmPuzzleVotesBy(votes: Int) {
+    func incrementRealmPuzzleVotesBy(_ votes: Int) {
         do {
             let realm = try Realm()
             
@@ -122,46 +122,46 @@ class PuzzleTableViewCell: UITableViewCell {
         catch {
             print("error updating puzzle votes: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
         }
     }
     
     func updatePuzzleFirebaseData() {
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
-        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
-        let puzzleVotesReference = puzzleReference.childByAppendingPath("votes")
-        puzzleVotesReference.setValue(puzzle.votes, withCompletionBlock: {(error, firebaseRef) in
+        let puzzlesReferece = firebaseReference?.child(byAppendingPath: "puzzles")
+        let puzzleReference = puzzlesReferece?.child(byAppendingPath: puzzle.id)
+        let puzzleVotesReference = puzzleReference?.child(byAppendingPath: "votes")
+        puzzleVotesReference?.setValue(puzzle.votes, withCompletionBlock: {(error, firebaseRef) in
             
             if (error != nil) {
                 print("Error saving to firebase: \(error)")
                 
                 // Alert User of error
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
             } else {
                 print("Succesfully saved votes to Firebase")
             }
         })
     }
     
-    func incrementPuzzleVotesBy(votes: Int) {
+    func incrementPuzzleVotesBy(_ votes: Int) {
         // Update Vote Text
         votesLabel.text = "\(Int(votesLabel.text!)! + votes)"
         
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReferece = firebaseReference.childByAppendingPath("puzzles")
-        let puzzleReference = puzzlesReferece.childByAppendingPath(puzzle.id)
-        let puzzleVotesReference = puzzleReference.childByAppendingPath("votes")
+        let puzzlesReferece = firebaseReference?.child(byAppendingPath: "puzzles")
+        let puzzleReference = puzzlesReferece?.child(byAppendingPath: puzzle.id)
+        let puzzleVotesReference = puzzleReference?.child(byAppendingPath: "votes")
         
         // Retrieve Puzzle Votes from Firebase
-        puzzleVotesReference.observeSingleEventOfType(.Value, withBlock: { snapshot in
-            print("snapshot.value: \(snapshot.value)")
+        puzzleVotesReference?.observeSingleEvent(of: .value, with: { snapshot in
+            print("snapshot.value: \(snapshot?.value)")
             
             // Update Realm Puzzle Object
             do {
@@ -174,10 +174,10 @@ class PuzzleTableViewCell: UITableViewCell {
             catch {
                 print("error updating puzzle votes: \(error)")
                 
-                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Updating Puzzle Votes", message: "\(error)", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(errorAlertController, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(errorAlertController, animated: true, completion: nil)
             }
             
             // Update Firebase Data
@@ -188,7 +188,7 @@ class PuzzleTableViewCell: UITableViewCell {
         })
     }
     
-    @IBAction func upVoteButtonTapped(sender: UIButton) {
+    @IBAction func upVoteButtonTapped(_ sender: UIButton) {
         if (userVote == 1) {    // Up Vote (Toggle)
             // Update User Vote
             userVote = 0
@@ -221,12 +221,12 @@ class PuzzleTableViewCell: UITableViewCell {
         }
         
         // Store userVote
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        let defaults = UserDefaults.standard
+        defaults.set(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
     }
 
-    @IBAction func downVoteButtonTapped(sender: UIButton) {
+    @IBAction func downVoteButtonTapped(_ sender: UIButton) {
         if (userVote == -1) {    // Down Vote (Toggle)
             // Update User Vote
             userVote = 0
@@ -259,8 +259,8 @@ class PuzzleTableViewCell: UITableViewCell {
         }
         
         // Store userVote
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(userVote, forKey: puzzle.id + ".userVote")
+        let defaults = UserDefaults.standard
+        defaults.set(userVote, forKey: puzzle.id + ".userVote")
         defaults.synchronize()
     }
 }

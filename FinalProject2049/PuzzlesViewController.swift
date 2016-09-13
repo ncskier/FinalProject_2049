@@ -47,10 +47,10 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         } catch {
             print("Error loading saved puzzles: \(error)")
             
-            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Loading Saved Puzzles", message: "\(error)", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            presentViewController(errorAlertController, animated: true, completion: nil)
+            present(errorAlertController, animated: true, completion: nil)
         }
         
         // Get current location
@@ -61,7 +61,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Refresh Control
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refreshControlPulled), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), for: .valueChanged)
         puzzlesTableView.addSubview(refreshControl)
         
         refreshControl.beginRefreshing()
@@ -74,10 +74,10 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // Deselect Selected Row
         if (puzzlesTableView.indexPathForSelectedRow != nil) {
-            puzzlesTableView.deselectRowAtIndexPath(puzzlesTableView.indexPathForSelectedRow!, animated: true)
+            puzzlesTableView.deselectRow(at: puzzlesTableView.indexPathForSelectedRow!, animated: true)
         }
         
         // Update table
@@ -91,32 +91,32 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setupLocationServices() {
         let authorizationStatus = CLLocationManager.authorizationStatus()
-        if (authorizationStatus == .Restricted) {
+        if (authorizationStatus == .restricted) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorization Restricted",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
             
-        } else if (authorizationStatus == .Denied) {
+        } else if (authorizationStatus == .denied) {
             
             // Show Error Alert
             let errorAlertController = UIAlertController(
                 title: "Location Authorisation Denied",
                 message: "This app will be unable to verify the correctness of puzzles without enabled location services.",
-                preferredStyle: .Alert
+                preferredStyle: .alert
             )
             let dismissAlertAction = UIAlertAction(
                 title: "Dismiss",
-                style: .Default,
+                style: .default,
                 handler: nil
             )
             errorAlertController.addAction(dismissAlertAction)
@@ -129,7 +129,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
             locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
             locationManager.startUpdatingLocation()
             
-            if (authorizationStatus == .NotDetermined) {
+            if (authorizationStatus == .notDetermined) {
                 locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
             } else {
                 locationManager!.startUpdatingLocation()
@@ -143,7 +143,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         loadedFirebasePuzzles = false
         
-        if (CLLocationManager.authorizationStatus() == .NotDetermined) {
+        if (CLLocationManager.authorizationStatus() == .notDetermined) {
             locationManager!.requestWhenInUseAuthorization()    // handled later by Delegate
         } else {
             locationManager!.startUpdatingLocation()
@@ -168,10 +168,10 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("ERROR: Could not retreive location")
             
             // Alert User of error
-            let errorAlertController = UIAlertController(title: "Error Reading Location", message: "There was an error trying to get your location.", preferredStyle: .Alert)
-            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+            let errorAlertController = UIAlertController(title: "Error Reading Location", message: "There was an error trying to get your location.", preferredStyle: .alert)
+            let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             errorAlertController.addAction(dismissAlertAction)
-            self.presentViewController(errorAlertController, animated: true, completion: nil)
+            self.present(errorAlertController, animated: true, completion: nil)
         }
         
         minLatitude = location!.coordinate.latitude - deltaLocation
@@ -186,22 +186,22 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Firebase
         let firebaseReference = Firebase(url: "https://shining-heat-3670.firebaseio.com/")
-        let puzzlesReference = firebaseReference.childByAppendingPath("puzzles")
+        let puzzlesReference = firebaseReference?.child(byAppendingPath: "puzzles")
         
         // Attach a closure to read the data at our posts reference
-        puzzlesReference.queryOrderedByChild("longitude").queryStartingAtValue(minLongitude).queryEndingAtValue(maxLongitude).observeEventType(
-            .Value,
-            withBlock: {(snapshot) in
+        puzzlesReference?.queryOrdered(byChild: "longitude").queryStarting(atValue: minLongitude).queryEnding(atValue: maxLongitude).observe(
+            .value,
+            with: {(snapshot) in
                 
                 self.allPuzzles = [Puzzle]()
                 
-                for snapshotChild in snapshot.children {
+                for snapshotChild in (snapshot?.children)! {
                     var firebaseData = (snapshotChild as! FDataSnapshot).value as! [String : NSObject]
                     
                     // Filter Latitude
                     let latitude = firebaseData["latitude"] as! Double
                     if (self.minLatitude < latitude && latitude < self.maxLatitude) {
-                        firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key
+                        firebaseData["id"] = (snapshotChild as! FDataSnapshot).ref.key as NSObject?
                         
                         // Check if puzzle is already saved (by using id)
                         let savedPuzzle = self.savedPuzzles.filter( { $0.id == firebaseData["id"] } ).first
@@ -228,25 +228,25 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.loadingFirebasePuzzles = false
                 self.loadedFirebasePuzzles = true
                 
-            }, withCancelBlock: {(error) in
+            }, withCancel: {(error) in
                 
                 print("Error getting data from Firebase: \(error)")
                 
                 // Alert User of error
-                let errorAlertController = UIAlertController(title: "Error Retrieving Puzzles", message: "There was an error with the database retrieving the puzzles.", preferredStyle: .Alert)
-                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .Default, handler: nil)
+                let errorAlertController = UIAlertController(title: "Error Retrieving Puzzles", message: "There was an error with the database retrieving the puzzles.", preferredStyle: .alert)
+                let dismissAlertAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                 errorAlertController.addAction(dismissAlertAction)
-                self.presentViewController(errorAlertController, animated: true, completion: nil)
+                self.present(errorAlertController, animated: true, completion: nil)
         })
     }
     
     func sortPuzzles() {
         if (segmentedControlView.selectedSegmentIndex == 1) {           // New Puzzles
             // Sort By Timestamp Descending (id)
-            self.allPuzzles.sortInPlace({ $0.id > $1.id })
+            self.allPuzzles.sort(by: { $0.id > $1.id })
         } else if (segmentedControlView.selectedSegmentIndex == 2) {    // Top Puzzles
             // Sort By Votes Descending
-            self.allPuzzles.sortInPlace({ $0.votes > $1.votes })
+            self.allPuzzles.sort(by: { $0.votes > $1.votes })
         }
     }
     
@@ -269,7 +269,7 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
 //        }
 //    }
     
-    @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
         
         // Sort Puzzles
         sortPuzzles()
@@ -310,14 +310,14 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     // MARK: - CLLocation Manager Delegate Methods
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("didUpdateLocation")
         if (!loadedFirebasePuzzles && !loadingFirebasePuzzles) {
             loadFirebasePuzzles()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         print("Error: \(error.description)")
         
@@ -325,40 +325,40 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         let errorAlertController = UIAlertController(
             title: "Location Services Error",
             message: "\(error.description)",
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
         let dismissAlertAction = UIAlertAction(
             title: "Dismiss",
-            style: .Default,
+            style: .default,
             handler: nil
         )
         errorAlertController.addAction(dismissAlertAction)
         
-        presentViewController(errorAlertController, animated: true, completion: nil)
+        present(errorAlertController, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        if (status == .AuthorizedWhenInUse) {
+        if (status == .authorizedWhenInUse) {
             locationManager!.startUpdatingLocation()
         }
     }
     
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         print("location manager PAUSED")
     }
     
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("location manager RESUMED")
     }
 
     // MARK: - Table view data source
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (segmentedControlView.selectedSegmentIndex == 0) {       // Saved Puzzles
             return savedPuzzles.count
         } else {                                                    // Regular Firebase Puzzles
@@ -366,13 +366,13 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("puzzleCell", forIndexPath: indexPath) as! PuzzleTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "puzzleCell", for: indexPath) as! PuzzleTableViewCell
         
         if (segmentedControlView.selectedSegmentIndex == 0) {          // Saved Puzzles
-            cell.puzzle = savedPuzzles[indexPath.row]
+            cell.puzzle = savedPuzzles[(indexPath as NSIndexPath).row]
         } else {                                                    // Regular Firebase Puzzles
-            cell.puzzle = allPuzzles[indexPath.row]
+            cell.puzzle = allPuzzles[(indexPath as NSIndexPath).row]
         }
         cell.updateUI()
         
@@ -417,9 +417,9 @@ class PuzzlesViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
-        let destinationViewController = segue.destinationViewController as! PuzzleDetailViewController
+        let destinationViewController = segue.destination as! PuzzleDetailViewController
         
         // Pass the selected object to the new view controller.
         let cell = sender as! PuzzleTableViewCell
