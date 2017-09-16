@@ -1,0 +1,779 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B063749C9FE563CDF62C4EF /* Pods_PicturePuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE67C2E683F0F0580EE9E41 /* Pods_PicturePuzzleTests.framework */; };
+		20C100091F6C79D400231D35 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C100081F6C79D400231D35 /* Models.swift */; };
+		20C1000B1F6C7C2B00231D35 /* NewPuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1000A1F6C7C2B00231D35 /* NewPuzzleViewController.swift */; };
+		20C1000F1F6C807E00231D35 /* PuzzleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1000E1F6C807E00231D35 /* PuzzleTableViewCell.swift */; };
+		20C100111F6C82F900231D35 /* PuzzlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C100101F6C82F900231D35 /* PuzzlesViewController.swift */; };
+		20C100131F6C888E00231D35 /* PuzzleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C100121F6C888E00231D35 /* PuzzleDetailViewController.swift */; };
+		20C100151F6C8A3100231D35 /* SolvePuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C100141F6C8A3100231D35 /* SolvePuzzleViewController.swift */; };
+		20C100171F6C8F5100231D35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20C100161F6C8F5100231D35 /* GoogleService-Info.plist */; };
+		20C1FFDB1F6C779100231D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FFDA1F6C779100231D35 /* AppDelegate.swift */; };
+		20C1FFE01F6C779100231D35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C1FFDE1F6C779100231D35 /* Main.storyboard */; };
+		20C1FFE21F6C779100231D35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20C1FFE11F6C779100231D35 /* Assets.xcassets */; };
+		20C1FFE51F6C779100231D35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C1FFE31F6C779100231D35 /* LaunchScreen.storyboard */; };
+		20C1FFF01F6C779100231D35 /* PicturePuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FFEF1F6C779100231D35 /* PicturePuzzleTests.swift */; };
+		20C1FFFB1F6C779100231D35 /* PicturePuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FFFA1F6C779100231D35 /* PicturePuzzleUITests.swift */; };
+		7B67020A5E953D7DF407DFD2 /* Pods_PicturePuzzleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6782223858CFE8C46754A8 /* Pods_PicturePuzzleUITests.framework */; };
+		7E90FA2A573857101E6EDA1A /* Pods_PicturePuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A4CCA62A310D1B819DAC30 /* Pods_PicturePuzzle.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20C1FFEC1F6C779100231D35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20C1FFCF1F6C779100231D35 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20C1FFD61F6C779100231D35;
+			remoteInfo = PicturePuzzle;
+		};
+		20C1FFF71F6C779100231D35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20C1FFCF1F6C779100231D35 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20C1FFD61F6C779100231D35;
+			remoteInfo = PicturePuzzle;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20C100081F6C79D400231D35 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		20C1000A1F6C7C2B00231D35 /* NewPuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPuzzleViewController.swift; sourceTree = "<group>"; };
+		20C1000E1F6C807E00231D35 /* PuzzleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleTableViewCell.swift; sourceTree = "<group>"; };
+		20C100101F6C82F900231D35 /* PuzzlesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzlesViewController.swift; sourceTree = "<group>"; };
+		20C100121F6C888E00231D35 /* PuzzleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleDetailViewController.swift; sourceTree = "<group>"; };
+		20C100141F6C8A3100231D35 /* SolvePuzzleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolvePuzzleViewController.swift; sourceTree = "<group>"; };
+		20C100161F6C8F5100231D35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		20C1FFD71F6C779100231D35 /* PicturePuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PicturePuzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20C1FFDA1F6C779100231D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		20C1FFDF1F6C779100231D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		20C1FFE11F6C779100231D35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20C1FFE41F6C779100231D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		20C1FFE61F6C779100231D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20C1FFEB1F6C779100231D35 /* PicturePuzzleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PicturePuzzleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20C1FFEF1F6C779100231D35 /* PicturePuzzleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePuzzleTests.swift; sourceTree = "<group>"; };
+		20C1FFF11F6C779100231D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20C1FFF61F6C779100231D35 /* PicturePuzzleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PicturePuzzleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20C1FFFA1F6C779100231D35 /* PicturePuzzleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePuzzleUITests.swift; sourceTree = "<group>"; };
+		20C1FFFC1F6C779100231D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		267610AE0259F4166E240CDB /* Pods-PicturePuzzleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzleUITests/Pods-PicturePuzzleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2B5DA2CA830D446C3FA1C3BC /* Pods-PicturePuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzle.release.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzle/Pods-PicturePuzzle.release.xcconfig"; sourceTree = "<group>"; };
+		5DE67C2E683F0F0580EE9E41 /* Pods_PicturePuzzleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PicturePuzzleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F6782223858CFE8C46754A8 /* Pods_PicturePuzzleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PicturePuzzleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6708CDD991E4FDD076FF2B7F /* Pods-PicturePuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzleTests/Pods-PicturePuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7EF0216FE933A8ABF9D0E8C5 /* Pods-PicturePuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzleUITests/Pods-PicturePuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		89A4CCA62A310D1B819DAC30 /* Pods_PicturePuzzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PicturePuzzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F21C220118E1B797DE32636F /* Pods-PicturePuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzle/Pods-PicturePuzzle.debug.xcconfig"; sourceTree = "<group>"; };
+		F6D2C17261CD642AFBBE7911 /* Pods-PicturePuzzleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PicturePuzzleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PicturePuzzleTests/Pods-PicturePuzzleTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		20C1FFD41F6C779100231D35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E90FA2A573857101E6EDA1A /* Pods_PicturePuzzle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFE81F6C779100231D35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B063749C9FE563CDF62C4EF /* Pods_PicturePuzzleTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFF31F6C779100231D35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B67020A5E953D7DF407DFD2 /* Pods_PicturePuzzleUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		20C1FFCE1F6C779100231D35 = {
+			isa = PBXGroup;
+			children = (
+				20C1FFD91F6C779100231D35 /* PicturePuzzle */,
+				20C1FFEE1F6C779100231D35 /* PicturePuzzleTests */,
+				20C1FFF91F6C779100231D35 /* PicturePuzzleUITests */,
+				20C1FFD81F6C779100231D35 /* Products */,
+				87BEA80BCF5285D95A9FAFC9 /* Pods */,
+				4AA9457B661E313E42A0A490 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		20C1FFD81F6C779100231D35 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20C1FFD71F6C779100231D35 /* PicturePuzzle.app */,
+				20C1FFEB1F6C779100231D35 /* PicturePuzzleTests.xctest */,
+				20C1FFF61F6C779100231D35 /* PicturePuzzleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20C1FFD91F6C779100231D35 /* PicturePuzzle */ = {
+			isa = PBXGroup;
+			children = (
+				20C1FFDA1F6C779100231D35 /* AppDelegate.swift */,
+				20C100081F6C79D400231D35 /* Models.swift */,
+				20C100101F6C82F900231D35 /* PuzzlesViewController.swift */,
+				20C100121F6C888E00231D35 /* PuzzleDetailViewController.swift */,
+				20C100141F6C8A3100231D35 /* SolvePuzzleViewController.swift */,
+				20C1000A1F6C7C2B00231D35 /* NewPuzzleViewController.swift */,
+				20C1000E1F6C807E00231D35 /* PuzzleTableViewCell.swift */,
+				20C1FFDE1F6C779100231D35 /* Main.storyboard */,
+				20C1FFE11F6C779100231D35 /* Assets.xcassets */,
+				20C1FFE31F6C779100231D35 /* LaunchScreen.storyboard */,
+				20C1FFE61F6C779100231D35 /* Info.plist */,
+				20C100161F6C8F5100231D35 /* GoogleService-Info.plist */,
+			);
+			path = PicturePuzzle;
+			sourceTree = "<group>";
+		};
+		20C1FFEE1F6C779100231D35 /* PicturePuzzleTests */ = {
+			isa = PBXGroup;
+			children = (
+				20C1FFEF1F6C779100231D35 /* PicturePuzzleTests.swift */,
+				20C1FFF11F6C779100231D35 /* Info.plist */,
+			);
+			path = PicturePuzzleTests;
+			sourceTree = "<group>";
+		};
+		20C1FFF91F6C779100231D35 /* PicturePuzzleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				20C1FFFA1F6C779100231D35 /* PicturePuzzleUITests.swift */,
+				20C1FFFC1F6C779100231D35 /* Info.plist */,
+			);
+			path = PicturePuzzleUITests;
+			sourceTree = "<group>";
+		};
+		4AA9457B661E313E42A0A490 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89A4CCA62A310D1B819DAC30 /* Pods_PicturePuzzle.framework */,
+				5DE67C2E683F0F0580EE9E41 /* Pods_PicturePuzzleTests.framework */,
+				5F6782223858CFE8C46754A8 /* Pods_PicturePuzzleUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87BEA80BCF5285D95A9FAFC9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F21C220118E1B797DE32636F /* Pods-PicturePuzzle.debug.xcconfig */,
+				2B5DA2CA830D446C3FA1C3BC /* Pods-PicturePuzzle.release.xcconfig */,
+				6708CDD991E4FDD076FF2B7F /* Pods-PicturePuzzleTests.debug.xcconfig */,
+				F6D2C17261CD642AFBBE7911 /* Pods-PicturePuzzleTests.release.xcconfig */,
+				7EF0216FE933A8ABF9D0E8C5 /* Pods-PicturePuzzleUITests.debug.xcconfig */,
+				267610AE0259F4166E240CDB /* Pods-PicturePuzzleUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		20C1FFD61F6C779100231D35 /* PicturePuzzle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20C1FFFF1F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzle" */;
+			buildPhases = (
+				A969875619476FF3FD26FAB2 /* [CP] Check Pods Manifest.lock */,
+				20C1FFD31F6C779100231D35 /* Sources */,
+				20C1FFD41F6C779100231D35 /* Frameworks */,
+				20C1FFD51F6C779100231D35 /* Resources */,
+				9E8338B0AF3E5913B723819F /* [CP] Embed Pods Frameworks */,
+				F415B1498FA63188B8B9D4A0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PicturePuzzle;
+			productName = PicturePuzzle;
+			productReference = 20C1FFD71F6C779100231D35 /* PicturePuzzle.app */;
+			productType = "com.apple.product-type.application";
+		};
+		20C1FFEA1F6C779100231D35 /* PicturePuzzleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20C100021F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzleTests" */;
+			buildPhases = (
+				95DC9D2403F7B59D02562E1F /* [CP] Check Pods Manifest.lock */,
+				20C1FFE71F6C779100231D35 /* Sources */,
+				20C1FFE81F6C779100231D35 /* Frameworks */,
+				20C1FFE91F6C779100231D35 /* Resources */,
+				810485DAFA1A71514E0EE859 /* [CP] Embed Pods Frameworks */,
+				553F7C2B6601F136425D469C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20C1FFED1F6C779100231D35 /* PBXTargetDependency */,
+			);
+			name = PicturePuzzleTests;
+			productName = PicturePuzzleTests;
+			productReference = 20C1FFEB1F6C779100231D35 /* PicturePuzzleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		20C1FFF51F6C779100231D35 /* PicturePuzzleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20C100051F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzleUITests" */;
+			buildPhases = (
+				A61B4F0D7137431CB53B0EAF /* [CP] Check Pods Manifest.lock */,
+				20C1FFF21F6C779100231D35 /* Sources */,
+				20C1FFF31F6C779100231D35 /* Frameworks */,
+				20C1FFF41F6C779100231D35 /* Resources */,
+				B61B57BF034A7E331F83CF15 /* [CP] Embed Pods Frameworks */,
+				2729E5C8D74CEBA5CEBFBED7 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20C1FFF81F6C779100231D35 /* PBXTargetDependency */,
+			);
+			name = PicturePuzzleUITests;
+			productName = PicturePuzzleUITests;
+			productReference = 20C1FFF61F6C779100231D35 /* PicturePuzzleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20C1FFCF1F6C779100231D35 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Brandon Walker";
+				TargetAttributes = {
+					20C1FFD61F6C779100231D35 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 25N7YFERVM;
+						ProvisioningStyle = Automatic;
+					};
+					20C1FFEA1F6C779100231D35 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 25N7YFERVM;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 20C1FFD61F6C779100231D35;
+					};
+					20C1FFF51F6C779100231D35 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 25N7YFERVM;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 20C1FFD61F6C779100231D35;
+					};
+				};
+			};
+			buildConfigurationList = 20C1FFD21F6C779100231D35 /* Build configuration list for PBXProject "PicturePuzzle" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 20C1FFCE1F6C779100231D35;
+			productRefGroup = 20C1FFD81F6C779100231D35 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				20C1FFD61F6C779100231D35 /* PicturePuzzle */,
+				20C1FFEA1F6C779100231D35 /* PicturePuzzleTests */,
+				20C1FFF51F6C779100231D35 /* PicturePuzzleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		20C1FFD51F6C779100231D35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C1FFE51F6C779100231D35 /* LaunchScreen.storyboard in Resources */,
+				20C100171F6C8F5100231D35 /* GoogleService-Info.plist in Resources */,
+				20C1FFE21F6C779100231D35 /* Assets.xcassets in Resources */,
+				20C1FFE01F6C779100231D35 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFE91F6C779100231D35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFF41F6C779100231D35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2729E5C8D74CEBA5CEBFBED7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzleUITests/Pods-PicturePuzzleUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		553F7C2B6601F136425D469C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzleTests/Pods-PicturePuzzleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		810485DAFA1A71514E0EE859 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzleTests/Pods-PicturePuzzleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95DC9D2403F7B59D02562E1F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PicturePuzzleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9E8338B0AF3E5913B723819F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzle/Pods-PicturePuzzle-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzle/Pods-PicturePuzzle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A61B4F0D7137431CB53B0EAF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PicturePuzzleUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A969875619476FF3FD26FAB2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PicturePuzzle-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B61B57BF034A7E331F83CF15 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzleUITests/Pods-PicturePuzzleUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F415B1498FA63188B8B9D4A0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PicturePuzzle/Pods-PicturePuzzle-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		20C1FFD31F6C779100231D35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C100131F6C888E00231D35 /* PuzzleDetailViewController.swift in Sources */,
+				20C1000F1F6C807E00231D35 /* PuzzleTableViewCell.swift in Sources */,
+				20C100091F6C79D400231D35 /* Models.swift in Sources */,
+				20C100111F6C82F900231D35 /* PuzzlesViewController.swift in Sources */,
+				20C100151F6C8A3100231D35 /* SolvePuzzleViewController.swift in Sources */,
+				20C1FFDB1F6C779100231D35 /* AppDelegate.swift in Sources */,
+				20C1000B1F6C7C2B00231D35 /* NewPuzzleViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFE71F6C779100231D35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C1FFF01F6C779100231D35 /* PicturePuzzleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C1FFF21F6C779100231D35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C1FFFB1F6C779100231D35 /* PicturePuzzleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		20C1FFED1F6C779100231D35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20C1FFD61F6C779100231D35 /* PicturePuzzle */;
+			targetProxy = 20C1FFEC1F6C779100231D35 /* PBXContainerItemProxy */;
+		};
+		20C1FFF81F6C779100231D35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20C1FFD61F6C779100231D35 /* PicturePuzzle */;
+			targetProxy = 20C1FFF71F6C779100231D35 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		20C1FFDE1F6C779100231D35 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				20C1FFDF1F6C779100231D35 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		20C1FFE31F6C779100231D35 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				20C1FFE41F6C779100231D35 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		20C100001F6C779100231D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F21C220118E1B797DE32636F /* Pods-PicturePuzzle.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		20C100011F6C779100231D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B5DA2CA830D446C3FA1C3BC /* Pods-PicturePuzzle.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		20C100031F6C779100231D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6708CDD991E4FDD076FF2B7F /* Pods-PicturePuzzleTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PicturePuzzle.app/PicturePuzzle";
+			};
+			name = Debug;
+		};
+		20C100041F6C779100231D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6D2C17261CD642AFBBE7911 /* Pods-PicturePuzzleTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PicturePuzzle.app/PicturePuzzle";
+			};
+			name = Release;
+		};
+		20C100061F6C779100231D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EF0216FE933A8ABF9D0E8C5 /* Pods-PicturePuzzleUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = PicturePuzzle;
+			};
+			name = Debug;
+		};
+		20C100071F6C779100231D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 267610AE0259F4166E240CDB /* Pods-PicturePuzzleUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 25N7YFERVM;
+				INFOPLIST_FILE = PicturePuzzleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brandonwalker.PicturePuzzleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = PicturePuzzle;
+			};
+			name = Release;
+		};
+		20C1FFFD1F6C779100231D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		20C1FFFE1F6C779100231D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		20C100021F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20C100031F6C779100231D35 /* Debug */,
+				20C100041F6C779100231D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20C100051F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20C100061F6C779100231D35 /* Debug */,
+				20C100071F6C779100231D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20C1FFD21F6C779100231D35 /* Build configuration list for PBXProject "PicturePuzzle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20C1FFFD1F6C779100231D35 /* Debug */,
+				20C1FFFE1F6C779100231D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20C1FFFF1F6C779100231D35 /* Build configuration list for PBXNativeTarget "PicturePuzzle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20C100001F6C779100231D35 /* Debug */,
+				20C100011F6C779100231D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20C1FFCF1F6C779100231D35 /* Project object */;
+}

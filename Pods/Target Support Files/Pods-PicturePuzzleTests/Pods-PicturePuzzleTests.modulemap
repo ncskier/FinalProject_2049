@@ -1,0 +1,6 @@
+framework module Pods_PicturePuzzleTests {
+  umbrella header "Pods-PicturePuzzleTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -4,12 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Firebase.xcscheme</key>
+		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FinalProject2049.xcscheme</key>
+		<key>Pods-PicturePuzzle.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PicturePuzzleTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PicturePuzzleUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -24,25 +34,55 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>leveldb-library.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>nanopb.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2EE4054A17012626342F9C0688BF7658</key>
+		<key>00103D6C821BE85971C563025527BA5D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>34381B4837F7A2C74F4793F30C0573E3</key>
+		<key>266AE1506DAD13D34C0725E909C0C476</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>728955C1EFB69647FF98C0542686F0C7</key>
+		<key>285B1D9C2E82C100F85DAF7671CA4211</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B7AC9326D819482593FE118E915409D7</key>
+		<key>2FA36A8513C7CF24872BBD545ADCCACF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>86DE7C6FABFF1234FA631BDFADA4C6E3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8FEF8EE0168941CD6EC418E43B8D1B24</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B695F8E4F0A3A67F7ACD03A4BB34B512</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4DD95323C54A78F879DAB0F1508B8E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
